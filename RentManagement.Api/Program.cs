@@ -1,21 +1,40 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RentManagement.Api.Data;
 using RentManagement.Api.Interfaces;
+using RentManagement.Api.Models;
 using RentManagement.Api.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Configure Entity Framework
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Configure ASP.NET Core Identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    // Configure password requirements
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 4;
+
+    // Configure email confirmation requirements
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = true;
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+
+// Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -36,7 +55,10 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Register custom services
 builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
+builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
@@ -44,6 +66,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    await app.SeedRolesAndAdminAsync();
 }
 
 app.UseHttpsRedirection();

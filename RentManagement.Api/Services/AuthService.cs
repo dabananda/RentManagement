@@ -1,0 +1,112 @@
+﻿using Microsoft.AspNetCore.Identity;
+using RentManagement.Api.Constants;
+using RentManagement.Api.DTOs;
+using RentManagement.Api.Interfaces;
+using RentManagement.Api.Models;
+
+namespace RentManagement.Api.Services
+{
+    public class AuthService : IAuthService
+    {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IEmailSender _emailSender;
+        private readonly IJwtService _jwtService;
+        private readonly IConfiguration _configuration;
+
+        public AuthService(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IEmailSender emailSender,
+            IJwtService jwtService,
+            IConfiguration configuration)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _emailSender = emailSender;
+            _jwtService = jwtService;
+            _configuration = configuration;
+        }
+
+        public async Task<Tuple<bool, string>> RegisterUserAsync(RegisterDto model)
+        {
+            var userExists = await _userManager.FindByEmailAsync(model.Email);
+            if (userExists != null)
+            {
+                return new Tuple<bool, string>(false, "User with this email already exists.");
+            }
+
+            var user = new ApplicationUser
+            {
+                Email = model.Email,
+                UserName = model.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                EmailConfirmed = false
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(" | ", result.Errors.Select(e => e.Description));
+                return new Tuple<bool, string>(false, $"User creation failed: {errors}");
+            }
+
+            await _userManager.AddToRoleAsync(user, UserRoles.Owner);
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            string confirmationLink = $"https://localhost:7073/api/Auth/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+
+            await _emailSender.SendEmailAsync(user.Email!, "Confirm Your Account",
+                $"Please confirm your email by clicking: {confirmationLink}");
+
+            return new Tuple<bool, string>(true, "User created successfully. Please confirm your email.");
+        }
+
+        public async Task<Tuple<bool, string, string>> LoginUserAsync(LoginDto model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return new Tuple<bool, string, string>(false, "Invalid credentials.", "");
+            }
+
+            var passwordCheck = await _userManager.CheckPasswordAsync(user, model.Password);
+            if (!passwordCheck)
+            {
+                return new Tuple<bool, string, string>(false, "Invalid credentials.", "");
+            }
+
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                return new Tuple<bool, string, string>(false, "Email not confirmed. Please check your inbox.", "");
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var token = _jwtService.GenerateToken(user.Id!, user.UserName!, roles);
+
+            return new Tuple<bool, string, string>(true, "Login successful.", token);
+        }
+
+        public async Task<bool> ConfirmEmailAsync(string userId, string token)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            {
+                return false;
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            var decodedToken = Uri.UnescapeDataString(token);
+
+            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
+
+            return result.Succeeded;
+        }
+    }
+}
