@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentManagement.Api.Data;
 
@@ -11,9 +12,11 @@ using RentManagement.Api.Data;
 namespace RentManagement.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250929110748_AddTenantEntity")]
+    partial class AddTenantEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,11 +268,11 @@ namespace RentManagement.Api.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<DateOnly?>("LeaseEndDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("LeaseEndDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("LeaseStartDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("LeaseStartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()

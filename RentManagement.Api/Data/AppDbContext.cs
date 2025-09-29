@@ -9,5 +9,6 @@ namespace RentManagement.Api.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Shop> Shops { get; set; }
+        public DbSet<Tenant> Tenants { get; set; }
     }
 }
