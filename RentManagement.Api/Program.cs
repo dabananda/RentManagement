@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using RentManagement.Api.Data;
 using RentManagement.Api.Interfaces;
 using RentManagement.Api.Models;
+using RentManagement.Api.Repositories;
 using RentManagement.Api.Services;
 using System.Text;
 
@@ -59,6 +60,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
+builder.Services.AddScoped<IShopService, ShopService>();
 
 var app = builder.Build();
 
