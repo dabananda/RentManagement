@@ -7,6 +7,7 @@ namespace RentManagement.Api.Interfaces
         Task<IEnumerable<Shop>> GetAllShopsAsync();
         Task<Shop?> GetShopByIdAsync(int id);
         Task AddShopAsync(Shop shop);
+        void UpdateShop(Shop shop);
         void DeleteShop(Shop shop);
         Task<bool> SaveChangesAsync();
     }

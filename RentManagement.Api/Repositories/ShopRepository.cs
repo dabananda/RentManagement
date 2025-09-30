@@ -38,5 +38,10 @@ namespace RentManagement.Api.Repositories
         {
             return (await _context.SaveChangesAsync() >= 0);
         }
+
+        public void UpdateShop(Shop shop)
+        {
+            _context.Shops.Update(shop);
+        }
     }
 }

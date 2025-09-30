@@ -10,5 +10,6 @@ namespace RentManagement.Api.Data
 
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
+        public DbSet<RentalAgreement> RentalAgreements { get; set; }
     }
 }

@@ -9,5 +9,6 @@
         public DateOnly LeaseStartDate { get; set; }
         public DateOnly? LeaseEndDate { get; set; }
         public bool IsActive { get; set; }
+        public RentalAgreement? CurrentAgreement { get; set; }
     }
 }

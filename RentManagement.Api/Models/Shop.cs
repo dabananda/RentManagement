@@ -10,5 +10,6 @@ namespace RentManagement.Api.Models
         public decimal AreaSqFt { get; set; }
         public required string Floor { get; set; }
         public bool IsOccupied { get; set; }
+        public RentalAgreement? CurrentAgreement { get; set; }
     }
 }

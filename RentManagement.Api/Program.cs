@@ -64,6 +64,8 @@ builder.Services.AddScoped<IShopRepository, ShopRepository>();
 builder.Services.AddScoped<IShopService, ShopService>();
 builder.Services.AddScoped<ITenantRepository, TenantRepository>();
 builder.Services.AddScoped<ITenantService, TenantService>();
+builder.Services.AddScoped<IRentalAgreementRepository, RentalAgreementRepository>();
+builder.Services.AddScoped<IRentalAgreementService, RentalAgreementService>();
 
 var app = builder.Build();
 
