@@ -67,6 +67,8 @@ builder.Services.AddScoped<ITenantService, TenantService>();
 builder.Services.AddScoped<IRentalAgreementRepository, RentalAgreementRepository>();
 builder.Services.AddScoped<IRentalAgreementService, RentalAgreementService>();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -80,6 +82,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200/"));
 
 app.MapControllers();
 
