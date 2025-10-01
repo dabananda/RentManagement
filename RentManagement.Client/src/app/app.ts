@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { Navbar } from "./navbar/navbar";
+import { Component, inject, OnInit } from '@angular/core';
+import { Navbar } from './navbar/navbar';
+import { Account } from './_services/account';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,18 @@ import { Navbar } from "./navbar/navbar";
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {}
+export class App implements OnInit {
+  private accountService = inject(Account);
+
+  ngOnInit(): void {
+    this.getCurrentUser();
+  }
+
+  getCurrentUser() {
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      this.accountService.currentUser.set(user);
+    }
+  }
+}
