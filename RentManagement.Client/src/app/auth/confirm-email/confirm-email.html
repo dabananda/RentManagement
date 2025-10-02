@@ -1,0 +1,8 @@
+<!-- RentManagement.Client/src/app/auth/confirm-email.html -->
+<div class="container py-5" style="max-width: 640px">
+  <h2 class="mb-3">Email confirmation</h2>
+
+  <div *ngIf="loading">Confirming your email…</div>
+  <div class="alert alert-success" *ngIf="!loading && message">{{ message }}</div>
+  <div class="alert alert-danger" *ngIf="!loading && error">{{ error }}</div>
+</div>

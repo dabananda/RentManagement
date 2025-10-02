@@ -56,10 +56,17 @@ namespace RentManagement.Api.Services
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            string confirmationLink = $"https://localhost:7073/api/Auth/ConfirmEmail?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+            string confirmationLink = $"http://localhost:4200/confirm-email?userId={user.Id}&token={Uri.EscapeDataString(token)}";
 
-            await _emailSender.SendEmailAsync(user.Email!, "Confirm Your Account",
-                $"Please confirm your email by clicking: {confirmationLink}");
+            string body = $@"
+                <p>Please confirm your account by clicking the link below:</p>
+                <p><a href='{confirmationLink}'>Confirm Email</a></p>
+                <p>If the link doesn’t work, copy and paste this into your browser:</p>
+                <p>{confirmationLink}</p>
+            ";
+
+            await _emailSender.SendEmailAsync(user.Email, "Confirm your email", body);
+
 
             return new Tuple<bool, string>(true, "User created successfully. Please confirm your email.");
         }
