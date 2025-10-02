@@ -26,11 +26,14 @@ namespace RentManagement.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto model)
+        public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginDto model)
         {
-            var (success, message, token) = await _authService.LoginUserAsync(model);
-            if (!success) return Unauthorized(new { Message = "Invalid login attempt." });
-            return Ok(new { Message = message, Token = token });
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+            var result = await _authService.LoginUserAsync(model);
+            if (result is null) return Unauthorized("Invalid credentials");
+
+            return Ok(result);
         }
 
         [HttpPost("ConfirmEmail")]

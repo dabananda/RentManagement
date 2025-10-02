@@ -10,6 +10,7 @@ namespace RentManagement.Api.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IJwtService _jwtService;
         private readonly IConfiguration _configuration;
@@ -17,12 +18,14 @@ namespace RentManagement.Api.Services
         public AuthService(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
+            SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             IJwtService jwtService,
             IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
             _emailSender = emailSender;
             _jwtService = jwtService;
             _configuration = configuration;
@@ -71,29 +74,29 @@ namespace RentManagement.Api.Services
             return new Tuple<bool, string>(true, "User created successfully. Please confirm your email.");
         }
 
-        public async Task<Tuple<bool, string, string>> LoginUserAsync(LoginDto model)
+        public async Task<LoginResponseDto?> LoginUserAsync(LoginDto model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null)
-            {
-                return new Tuple<bool, string, string>(false, "Invalid credentials.", "");
-            }
+            if (user is null) return null;
 
-            var passwordCheck = await _userManager.CheckPasswordAsync(user, model.Password);
-            if (!passwordCheck)
-            {
-                return new Tuple<bool, string, string>(false, "Invalid credentials.", "");
-            }
+            var signInResult = await _signInManager.PasswordSignInAsync(
+                userName: user.UserName!,
+                password: model.Password,
+                isPersistent: false,
+                lockoutOnFailure: true);
 
-            if (!await _userManager.IsEmailConfirmedAsync(user))
-            {
-                return new Tuple<bool, string, string>(false, "Email not confirmed. Please check your inbox.", "");
-            }
+            if (!signInResult.Succeeded) return null;
+            if (!await _userManager.IsEmailConfirmedAsync(user)) return null;
 
             var roles = await _userManager.GetRolesAsync(user);
             var token = _jwtService.GenerateToken(user.Id!, user.UserName!, roles);
 
-            return new Tuple<bool, string, string>(true, "Login successful.", token);
+            return new LoginResponseDto
+            {
+                Email = user.Email!,
+                Token = token,
+                Roles = [..roles]
+            };
         }
 
         public async Task<bool> ConfirmEmailAsync(string userId, string token)
