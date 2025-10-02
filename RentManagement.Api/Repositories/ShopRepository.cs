@@ -21,7 +21,7 @@ namespace RentManagement.Api.Repositories
 
         public async Task<Shop?> GetShopByIdAsync(int id)
         {
-            return await _context.Shops.FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.Shops.FindAsync(id);
         }
 
         public async Task AddShopAsync(Shop shop)

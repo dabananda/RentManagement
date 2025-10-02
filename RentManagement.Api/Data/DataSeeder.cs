@@ -34,10 +34,7 @@ namespace RentManagement.Api.Data
             var adminEmail = configuration["AdminUser:Email"];
             var adminPassword = configuration["AdminUser:Password"];
 
-            if (adminEmail == null || adminPassword == null)
-            {
-                return;
-            }
+            if (adminEmail == null || adminPassword == null) return;
 
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 

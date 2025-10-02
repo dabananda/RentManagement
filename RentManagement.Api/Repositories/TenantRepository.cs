@@ -2,7 +2,6 @@
 using RentManagement.Api.Data;
 using RentManagement.Api.Interfaces;
 using RentManagement.Api.Models;
-using System.Threading.Tasks;
 
 namespace RentManagement.Api.Repositories
 {
@@ -12,9 +11,9 @@ namespace RentManagement.Api.Repositories
 
         public TenantRepository(AppDbContext context) => _context = context;
 
-        public async Task<IEnumerable<Tenant>> GetAllTenantsAsync() => await _context.Tenants.ToListAsync();
+        public async Task<IEnumerable<Tenant>> GetAllTenantsAsync() => await _context.Tenants.Include(r => r.CurrentAgreement).ToListAsync();
 
-        public async Task<Tenant?> GetTenantByIdAsync(int id) => await _context.Tenants.FirstOrDefaultAsync(t => t.Id == id);
+        public async Task<Tenant?> GetTenantByIdAsync(int id) => await _context.Tenants.FindAsync(id);
 
         public async Task AddTenantAsync(Tenant tenant) => await _context.Tenants.AddAsync(tenant);
 

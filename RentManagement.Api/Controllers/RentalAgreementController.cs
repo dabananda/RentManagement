@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RentManagement.Api.DTOs;
 using RentManagement.Api.Interfaces;
-using RentManagement.Api.Models;
 
 namespace RentManagement.Api.Controllers
 {
@@ -21,17 +20,11 @@ namespace RentManagement.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAgreement([FromBody] RentalAgreementCreateDto model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var (newAgreementDto, errorMessage) = await _agreementService.CreateAgreementAsync(model);
 
-            if (errorMessage != null)
-            {
-                return BadRequest(new { Message = errorMessage });
-            }
+            if (errorMessage != null) return BadRequest(new { Message = errorMessage });
 
             return CreatedAtAction(nameof(GetAgreementById), new { id = newAgreementDto!.Id }, newAgreementDto);
         }
@@ -40,11 +33,7 @@ namespace RentManagement.Api.Controllers
         public async Task<IActionResult> EndAgreement(int id)
         {
             var success = await _agreementService.EndAgreementAsync(id);
-
-            if (!success)
-            {
-                return NotFound();
-            }
+            if (!success) return NotFound();
 
             return NoContent();
         }
@@ -53,11 +42,7 @@ namespace RentManagement.Api.Controllers
         public async Task<IActionResult> GetAgreementById(int id)
         {
             var agreement = await _agreementService.GetAgreementByIdAsync(id);
-
-            if (agreement == null)
-            {
-                return NotFound();
-            }
+            if (agreement == null) return NotFound();
 
             return Ok(agreement);
         }
@@ -66,30 +51,20 @@ namespace RentManagement.Api.Controllers
         public async Task<IActionResult> GetAllAgreements()
         {
             var agreements = await _agreementService.GetAllAgreementsAsync();
+
             return Ok(agreements);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAgreement(int id, [FromBody] RentalAgreementCreateDto model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var agreement = await _agreementService.GetAgreementByIdAsync(id);
-
-            if (agreement == null)
-            {
-                return NotFound();
-            }
+            if (agreement == null) return NotFound();
 
             var result = await _agreementService.UpdateAgreementAsync(id, model);
-
-            if (!result)
-            {
-                return BadRequest("Couldn't update. Please try again");
-            }
+            if (!result) return BadRequest("Couldn't update. Please try again");
 
             return NoContent();
         }
@@ -98,18 +73,10 @@ namespace RentManagement.Api.Controllers
         public async Task<IActionResult> DeleteAgreement(int id)
         {
             var agreement = await _agreementService.GetAgreementByIdAsync(id);
-
-            if (agreement == null)
-            {
-                return NotFound();
-            }
+            if (agreement == null) return NotFound();
 
             var result = await _agreementService.DeleteAgreementAsync(id);
-
-            if (!result)
-            {
-                return BadRequest("Couldn't delete. Please try again");
-            }
+            if (!result) return BadRequest("Couldn't delete. Please try again");
 
             return NoContent();
         }

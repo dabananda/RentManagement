@@ -12,7 +12,10 @@ namespace RentManagement.Api.Models
         public decimal RentAmount { get; set; }
 
         [Required]
-        public DateOnly EffectiveDate { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly? EndDate { get; set; }
+
+        public bool IsActive { get; set; }
 
         [Required]
         public int ShopId { get; set; }

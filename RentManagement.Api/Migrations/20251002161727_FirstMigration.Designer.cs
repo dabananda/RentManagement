@@ -12,8 +12,8 @@ using RentManagement.Api.Data;
 namespace RentManagement.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250929174455_UpdatedTenantModel")]
-    partial class UpdatedTenantModel
+    [Migration("20251002161727_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -223,6 +223,43 @@ namespace RentManagement.Api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("RentManagement.Api.Models.RentalAgreement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly?>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("RentAmount")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<int>("ShopId")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShopId")
+                        .IsUnique();
+
+                    b.HasIndex("TenantId")
+                        .IsUnique();
+
+                    b.ToTable("RentalAgreements");
+                });
+
             modelBuilder.Entity("RentManagement.Api.Models.Shop", b =>
                 {
                     b.Property<int>("Id")
@@ -258,23 +295,14 @@ namespace RentManagement.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ContactNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateOnly?>("LeaseEndDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("LeaseStartDate")
-                        .HasColumnType("date");
-
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -332,6 +360,35 @@ namespace RentManagement.Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RentManagement.Api.Models.RentalAgreement", b =>
+                {
+                    b.HasOne("RentManagement.Api.Models.Shop", "Shop")
+                        .WithOne("CurrentAgreement")
+                        .HasForeignKey("RentManagement.Api.Models.RentalAgreement", "ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentManagement.Api.Models.Tenant", "Tenant")
+                        .WithOne("CurrentAgreement")
+                        .HasForeignKey("RentManagement.Api.Models.RentalAgreement", "TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("RentManagement.Api.Models.Shop", b =>
+                {
+                    b.Navigation("CurrentAgreement");
+                });
+
+            modelBuilder.Entity("RentManagement.Api.Models.Tenant", b =>
+                {
+                    b.Navigation("CurrentAgreement");
                 });
 #pragma warning restore 612, 618
         }

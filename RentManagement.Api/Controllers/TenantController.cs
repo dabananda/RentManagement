@@ -35,10 +35,7 @@ namespace RentManagement.Api.Controllers
         {
             var tenant = await _tenantService.GetTenantByIdAsync(id);
 
-            if (tenant == null)
-            {
-                return NotFound();
-            }
+            if (tenant == null) return NotFound();
 
             return Ok(tenant);
         }
@@ -47,23 +44,18 @@ namespace RentManagement.Api.Controllers
         public async Task<IActionResult> GetAllTenants()
         {
             var tenants = await _tenantService.GetAllTenantsAsync();
+
             return Ok(tenants);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTenant(int id, [FromBody] TenantCreateDto model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var success = await _tenantService.UpdateTenantAsync(id, model);
 
-            if (!success)
-            {
-                return NotFound();
-            }
+            if (!success) return NotFound();
 
             return NoContent();
         }
@@ -73,10 +65,7 @@ namespace RentManagement.Api.Controllers
         {
             var success = await _tenantService.DeleteTenantAsync(id);
 
-            if (!success)
-            {
-                return NotFound();
-            }
+            if (!success) return NotFound();
 
             return NoContent();
         }

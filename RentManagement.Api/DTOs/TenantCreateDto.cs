@@ -10,12 +10,9 @@ namespace RentManagement.Api.DTOs
 
         [Required]
         [Phone]
-        public string ContactNumber { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
 
         [EmailAddress]
         public string? Email { get; set; }
-
-        public DateOnly LeaseStartDate { get; set; }
-        public DateOnly? LeaseEndDate { get; set; }
     }
 }
