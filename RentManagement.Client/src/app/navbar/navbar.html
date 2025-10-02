@@ -33,25 +33,8 @@
       </div>
       } @else {
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <a class="btn btn-primary me-1">Login</a>
-        <a class="btn btn-primary">Register</a>
-        <form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex">
-          <input
-            type="email"
-            name="email"
-            [(ngModel)]="model.email"
-            class="form-control me-2"
-            placeholder="Email"
-          />
-          <input
-            type="password"
-            name="password"
-            [(ngModel)]="model.password"
-            class="form-control me-2"
-            placeholder="Password"
-          />
-          <button class="btn btn-primary" type="submit">Login</button>
-        </form>
+        <a class="btn btn-primary me-1" routerLink="/login">Login</a>
+        <a class="btn btn-primary" routerLink="/register">Register</a>
       </ul>
       }
     </div>
