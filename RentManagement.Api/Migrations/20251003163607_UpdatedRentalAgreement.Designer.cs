@@ -12,8 +12,8 @@ using RentManagement.Api.Data;
 namespace RentManagement.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251003043311_UpdateAgreementRelationships")]
-    partial class UpdateAgreementRelationships
+    [Migration("20251003163607_UpdatedRentalAgreement")]
+    partial class UpdatedRentalAgreement
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -240,6 +240,9 @@ namespace RentManagement.Api.Migrations
                     b.Property<decimal>("RentAmount")
                         .HasColumnType("decimal(18, 2)");
 
+                    b.Property<decimal>("SecurityFee")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<int>("ShopId")
                         .HasColumnType("int");
 
@@ -296,6 +299,7 @@ namespace RentManagement.Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

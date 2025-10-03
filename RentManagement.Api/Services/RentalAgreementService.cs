@@ -43,7 +43,8 @@ namespace RentManagement.Api.Services
             await _agreementRepository.AddAgreementAsync(agreement);
             await _agreementRepository.SaveChangesAsync();
 
-            var agreementDtoOut = _mapper.Map<RentalAgreementDto>(agreement);
+            var savedAgreement = await _agreementRepository.GetAgreementByIdAsync(agreement.Id);
+            var agreementDtoOut = _mapper.Map<RentalAgreementDto>(savedAgreement);
             return new Tuple<RentalAgreementDto?, string?>(agreementDtoOut, null);
         }
 
@@ -66,10 +67,10 @@ namespace RentManagement.Api.Services
             return await _agreementRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<RentalAgreementDto>> GetAllAgreementsAsync()
+        public async Task<IEnumerable<AgreementDetailsDto>> GetAllAgreementsAsync()
         {
             var agreements = await _agreementRepository.GetAllAgreementsAsync();
-            return _mapper.Map<IEnumerable<RentalAgreementDto>>(agreements);
+            return _mapper.Map<IEnumerable<AgreementDetailsDto>>(agreements);
         }
 
         public async Task<RentalAgreementDto?> GetAgreementByIdAsync(int id)
@@ -85,6 +86,7 @@ namespace RentManagement.Api.Services
             if (agreement == null) return false;
 
             agreement.RentAmount = agreementDto.RentAmount;
+            agreement.SecurityFee = agreementDto.SecurityFee;
             agreement.StartDate = agreementDto.StartDate;
             agreement.EndDate = agreementDto.EndDate;
             agreement.ShopId = agreementDto.ShopId;

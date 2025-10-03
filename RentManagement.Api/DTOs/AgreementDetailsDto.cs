@@ -1,9 +1,6 @@
-﻿using RentManagement.Api.Models;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace RentManagement.Api.DTOs
+﻿namespace RentManagement.Api.DTOs
 {
-    public class RentalAgreementDto
+    public class AgreementDetailsDto
     {
         public int Id { get; set; }
         public decimal RentAmount { get; set; }

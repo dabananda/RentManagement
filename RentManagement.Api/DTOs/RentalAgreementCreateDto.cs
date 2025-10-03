@@ -6,6 +6,7 @@ namespace RentManagement.Api.DTOs
     {
         [Required]
         public decimal RentAmount { get; set; }
+        public decimal SecurityFee { get; set; }
 
         [Required]
         public DateOnly StartDate { get; set; }

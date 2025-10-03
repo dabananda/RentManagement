@@ -4,7 +4,7 @@ namespace RentManagement.Api.Interfaces
 {
     public interface IRentalAgreementService
     {
-        Task<IEnumerable<RentalAgreementDto>> GetAllAgreementsAsync();
+        Task<IEnumerable<AgreementDetailsDto>> GetAllAgreementsAsync();
         Task<RentalAgreementDto?> GetAgreementByIdAsync(int id);
         Task<Tuple<RentalAgreementDto?, string?>> CreateAgreementAsync(RentalAgreementCreateDto agreementDto);
         Task<bool> EndAgreementAsync(int id);

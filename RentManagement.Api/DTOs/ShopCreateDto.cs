@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RentManagement.Api.DTOs
 {
@@ -9,6 +10,7 @@ namespace RentManagement.Api.DTOs
         public string ShopNumber { get; set; } = string.Empty;
 
         [Required]
+        [Column(TypeName = "decimal(18, 2)")]
         public string Floor { get; set; } = string.Empty;
 
         [Range(10, 10000, ErrorMessage = "Area must be between 10 and 10000 sq ft.")]
