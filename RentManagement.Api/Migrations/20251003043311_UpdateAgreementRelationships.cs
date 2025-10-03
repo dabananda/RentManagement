@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RentManagement.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class UpdateAgreementRelationships : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -208,13 +208,13 @@ namespace RentManagement.Api.Migrations
                         column: x => x.ShopId,
                         principalTable: "Shops",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RentalAgreements_Tenants_TenantId",
                         column: x => x.TenantId,
                         principalTable: "Tenants",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -257,16 +257,16 @@ namespace RentManagement.Api.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentalAgreements_ShopId",
+                name: "IX_RentalAgreements_ShopId_IsActive",
                 table: "RentalAgreements",
-                column: "ShopId",
-                unique: true);
+                columns: new[] { "ShopId", "IsActive" },
+                unique: true,
+                filter: "[IsActive] = 1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RentalAgreements_TenantId",
                 table: "RentalAgreements",
-                column: "TenantId",
-                unique: true);
+                column: "TenantId");
         }
 
         /// <inheritdoc />

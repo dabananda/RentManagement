@@ -12,8 +12,8 @@ using RentManagement.Api.Data;
 namespace RentManagement.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251002161727_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20251003043311_UpdateAgreementRelationships")]
+    partial class UpdateAgreementRelationships
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -251,11 +251,11 @@ namespace RentManagement.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShopId")
-                        .IsUnique();
+                    b.HasIndex("TenantId");
 
-                    b.HasIndex("TenantId")
-                        .IsUnique();
+                    b.HasIndex("ShopId", "IsActive")
+                        .IsUnique()
+                        .HasFilter("[IsActive] = 1");
 
                     b.ToTable("RentalAgreements");
                 });
@@ -365,15 +365,15 @@ namespace RentManagement.Api.Migrations
             modelBuilder.Entity("RentManagement.Api.Models.RentalAgreement", b =>
                 {
                     b.HasOne("RentManagement.Api.Models.Shop", "Shop")
-                        .WithOne("CurrentAgreement")
-                        .HasForeignKey("RentManagement.Api.Models.RentalAgreement", "ShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("RentalAgreements")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RentManagement.Api.Models.Tenant", "Tenant")
-                        .WithOne("CurrentAgreement")
-                        .HasForeignKey("RentManagement.Api.Models.RentalAgreement", "TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("RentalAgreements")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Shop");
@@ -383,12 +383,12 @@ namespace RentManagement.Api.Migrations
 
             modelBuilder.Entity("RentManagement.Api.Models.Shop", b =>
                 {
-                    b.Navigation("CurrentAgreement");
+                    b.Navigation("RentalAgreements");
                 });
 
             modelBuilder.Entity("RentManagement.Api.Models.Tenant", b =>
                 {
-                    b.Navigation("CurrentAgreement");
+                    b.Navigation("RentalAgreements");
                 });
 #pragma warning restore 612, 618
         }

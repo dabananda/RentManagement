@@ -12,10 +12,16 @@ namespace RentManagement.Api.Mappings
             CreateMap<Shop, ShopCreateDto>().ReverseMap();
 
             CreateMap<Tenant, TenantDto>()
-                .ForMember(dest => dest.CurrentAgreementId,
-                    opt => opt.MapFrom(src => src.CurrentAgreement != null ? src.CurrentAgreement.Id : (int?)null))
-                .ForMember(dest => dest.CurrentShopNumber,
-                    opt => opt.MapFrom(src => src.CurrentAgreement != null ? src.CurrentAgreement.Shop.ShopNumber : null));
+                .ForMember(dest => dest.ActiveAgreementIds,
+                    opt => opt.MapFrom(src => src.RentalAgreements
+                        .Where(a => a.IsActive)
+                        .Select(a => a.Id)
+                        .ToList()))
+                .ForMember(dest => dest.ActiveShopNumbers,
+                    opt => opt.MapFrom(src => src.RentalAgreements
+                        .Where(a => a.IsActive)
+                        .Select(a => a.Shop.ShopNumber)
+                        .ToList()));
 
             CreateMap<Tenant, TenantCreateDto>().ReverseMap();
 

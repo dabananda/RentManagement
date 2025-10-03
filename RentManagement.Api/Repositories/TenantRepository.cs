@@ -9,11 +9,26 @@ namespace RentManagement.Api.Repositories
     {
         private readonly AppDbContext _context;
 
-        public TenantRepository(AppDbContext context) => _context = context;
+        public TenantRepository(AppDbContext context)
+        {
+            _context = context;
+        }
 
-        public async Task<IEnumerable<Tenant>> GetAllTenantsAsync() => await _context.Tenants.Include(r => r.CurrentAgreement).ToListAsync();
+        public async Task<IEnumerable<Tenant>> GetAllTenantsAsync()
+        {
+            return await _context.Tenants
+                            .Include(t => t.RentalAgreements.Where(a => a.IsActive))
+                            .ThenInclude(a => a.Shop)
+                            .ToListAsync();
+        }
 
-        public async Task<Tenant?> GetTenantByIdAsync(int id) => await _context.Tenants.FindAsync(id);
+        public async Task<Tenant?> GetTenantByIdAsync(int id)
+        {
+            return await _context.Tenants
+                .Include(t => t.RentalAgreements.Where(a => a.IsActive))
+                .ThenInclude(a => a.Shop)
+                .FirstOrDefaultAsync(t => t.Id == id);
+        }
 
         public async Task AddTenantAsync(Tenant tenant) => await _context.Tenants.AddAsync(tenant);
 
