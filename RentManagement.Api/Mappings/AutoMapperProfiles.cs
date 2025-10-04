@@ -11,6 +11,8 @@ namespace RentManagement.Api.Mappings
             CreateMap<Shop, ShopDto>().ReverseMap();
             CreateMap<Shop, ShopCreateDto>().ReverseMap();
             CreateMap<Shop, ShopDetailsDto>().ReverseMap();
+            CreateMap<Shop, ShopListDto>()
+                .ForMember(dest => dest.Agreements, opt => opt.MapFrom(src => src.RentalAgreements));
 
             CreateMap<Tenant, TenantCreateDto>().ReverseMap();
             CreateMap<Tenant, TenantDetailsDto>().ReverseMap();
@@ -31,6 +33,9 @@ namespace RentManagement.Api.Mappings
                 .ReverseMap();
             CreateMap<RentalAgreement, AgreementWithShopDto>()
                 .ForMember(dest => dest.Shop, opt => opt.MapFrom(src => src.Shop))
+                .ReverseMap();
+            CreateMap<RentalAgreement, AgreementWithTenantDto>()
+                .ForMember(dest => dest.Tenant, opt => opt.MapFrom(src => src.Tenant))
                 .ReverseMap();
         }
     }

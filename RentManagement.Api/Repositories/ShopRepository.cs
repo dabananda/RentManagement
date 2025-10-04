@@ -16,12 +16,18 @@ namespace RentManagement.Api.Repositories
 
         public async Task<IEnumerable<Shop>> GetAllShopsAsync()
         {
-            return await _context.Shops.ToListAsync();
+            return await _context.Shops
+                .Include(a => a.RentalAgreements)
+                .ThenInclude(t => t.Tenant)
+                .ToListAsync();
         }
 
         public async Task<Shop?> GetShopByIdAsync(int id)
         {
-            return await _context.Shops.FindAsync(id);
+            return await _context.Shops
+                .Include(a => a.RentalAgreements)
+                .ThenInclude(t => t.Tenant)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task AddShopAsync(Shop shop)

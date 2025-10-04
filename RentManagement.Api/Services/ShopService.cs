@@ -26,20 +26,20 @@ namespace RentManagement.Api.Services
             return _mapper.Map<ShopDto>(shop);
         }
 
-        public async Task<IEnumerable<ShopDto>> GetAllShopsAsync()
+        public async Task<IEnumerable<ShopListDto>> GetAllShopsAsync()
         {
             var shops = await _shopRepository.GetAllShopsAsync();
 
-            return _mapper.Map<IEnumerable<ShopDto>>(shops);
+            return _mapper.Map<IEnumerable<ShopListDto>>(shops);
         }
 
-        public async Task<ShopDto?> GetShopByIdAsync(int id)
+        public async Task<ShopListDto?> GetShopByIdAsync(int id)
         {
             var shop = await _shopRepository.GetShopByIdAsync(id);
 
             if (shop == null) return null;
 
-            return _mapper.Map<ShopDto>(shop);
+            return _mapper.Map<ShopListDto>(shop);
         }
 
         public async Task<bool> UpdateShopAsync(int id, ShopCreateDto shopDto)
