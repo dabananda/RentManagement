@@ -6,7 +6,7 @@ namespace RentManagement.Api.Interfaces
     {
         Task<IEnumerable<TenantDto>> GetAllTenantsAsync();
         Task<TenantDto?> GetTenantByIdAsync(int id);
-        Task<TenantDto> CreateTenantAsync(TenantCreateDto tenantDto);
+        Task<TenantDetailsDto> CreateTenantAsync(TenantCreateDto tenantDto);
         Task<bool> UpdateTenantAsync(int id, TenantCreateDto tenantDto);
         Task<bool> DeleteTenantAsync(int id);
     }

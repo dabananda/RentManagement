@@ -20,10 +20,7 @@ namespace RentManagement.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTenant([FromBody] TenantCreateDto model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var newTenantDto = await _tenantService.CreateTenantAsync(model);
 

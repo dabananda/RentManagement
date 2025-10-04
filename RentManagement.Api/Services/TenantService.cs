@@ -18,14 +18,14 @@ namespace RentManagement.Api.Services
             _mapper = mapper;
         }
 
-        public async Task<TenantDto> CreateTenantAsync(TenantCreateDto tenantDto)
+        public async Task<TenantDetailsDto> CreateTenantAsync(TenantCreateDto tenantDto)
         {
             var tenant = _mapper.Map<Tenant>(tenantDto);
 
             await _tenantRepository.AddTenantAsync(tenant);
             await _tenantRepository.SaveChangesAsync();
 
-            return _mapper.Map<TenantDto>(tenant);
+            return _mapper.Map<TenantDetailsDto>(tenant);
         }
         
         public async Task<IEnumerable<TenantDto>> GetAllTenantsAsync()

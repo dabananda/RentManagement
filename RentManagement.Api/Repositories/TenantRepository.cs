@@ -17,7 +17,7 @@ namespace RentManagement.Api.Repositories
         public async Task<IEnumerable<Tenant>> GetAllTenantsAsync()
         {
             return await _context.Tenants
-                            .Include(t => t.RentalAgreements.Where(a => a.IsActive))
+                            .Include(t => t.RentalAgreements)
                             .ThenInclude(a => a.Shop)
                             .ToListAsync();
         }
@@ -25,7 +25,7 @@ namespace RentManagement.Api.Repositories
         public async Task<Tenant?> GetTenantByIdAsync(int id)
         {
             return await _context.Tenants
-                .Include(t => t.RentalAgreements.Where(a => a.IsActive))
+                .Include(t => t.RentalAgreements)
                 .ThenInclude(a => a.Shop)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
