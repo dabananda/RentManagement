@@ -2,6 +2,7 @@
 using RentManagement.Api.DTOs;
 using RentManagement.Api.Interfaces;
 using RentManagement.Api.Models;
+using RentManagement.Api.Security;
 
 namespace RentManagement.Api.Services
 {
@@ -10,15 +11,18 @@ namespace RentManagement.Api.Services
         private readonly IRentRecordRepository _repo;
         private readonly IRentalAgreementRepository _agreements;
         private readonly IMapper _mapper;
+        private readonly ICurrentUser _currentUser;
 
         public RentRecordService(
             IRentRecordRepository repo,
             IRentalAgreementRepository agreements,
-            IMapper mapper)
+            IMapper mapper,
+            ICurrentUser currentUser)
         {
             _repo = repo;
             _agreements = agreements;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
 
         public async Task<(RentRecordDto? record, string? error)> CreateAsync(RentRecordCreateDto dto)
@@ -47,7 +51,8 @@ namespace RentManagement.Api.Services
                 Month = month,
                 Amount = amount,
                 PaidOn = DateOnly.FromDateTime(DateTime.UtcNow.Date),
-                Notes = dto.Notes
+                Notes = dto.Notes,
+                CreatedByUserId = _currentUser.UserId!
             };
 
             await _repo.AddAsync(record);

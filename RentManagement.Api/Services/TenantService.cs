@@ -2,6 +2,7 @@
 using RentManagement.Api.DTOs;
 using RentManagement.Api.Interfaces;
 using RentManagement.Api.Models;
+using RentManagement.Api.Security;
 
 namespace RentManagement.Api.Services
 {
@@ -9,18 +10,23 @@ namespace RentManagement.Api.Services
     {
         private readonly ITenantRepository _tenantRepository;
         private readonly IMapper _mapper;
+        private readonly ICurrentUser _currentUser;
 
         public TenantService(
             ITenantRepository tenantRepository,
-            IMapper mapper)
+            IMapper mapper,
+            ICurrentUser currentUser)
         {
             _tenantRepository = tenantRepository;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
 
         public async Task<TenantDetailsDto> CreateTenantAsync(TenantCreateDto tenantDto)
         {
             var tenant = _mapper.Map<Tenant>(tenantDto);
+
+            tenant.CreatedByUserId = _currentUser.UserId!;
 
             await _tenantRepository.AddTenantAsync(tenant);
             await _tenantRepository.SaveChangesAsync();

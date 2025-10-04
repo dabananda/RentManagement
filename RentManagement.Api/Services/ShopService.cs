@@ -2,6 +2,7 @@
 using RentManagement.Api.DTOs;
 using RentManagement.Api.Interfaces;
 using RentManagement.Api.Models;
+using RentManagement.Api.Security;
 
 namespace RentManagement.Api.Services
 {
@@ -9,16 +10,20 @@ namespace RentManagement.Api.Services
     {
         private readonly IShopRepository _shopRepository;
         private readonly IMapper _mapper;
+        private readonly ICurrentUser _currentUser;
 
-        public ShopService(IShopRepository shopRepository, IMapper mapper)
+        public ShopService(IShopRepository shopRepository, IMapper mapper, ICurrentUser currentUser)
         {
             _shopRepository = shopRepository;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
 
         public async Task<ShopDto> CreateShopAsync(ShopCreateDto shopDto)
         {
             var shop = _mapper.Map<Shop>(shopDto);
+
+            shop.CreatedByUserId = _currentUser.UserId!;
 
             await _shopRepository.AddShopAsync(shop);
             await _shopRepository.SaveChangesAsync();

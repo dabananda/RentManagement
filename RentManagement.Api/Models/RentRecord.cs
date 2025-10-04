@@ -18,5 +18,6 @@ namespace RentManagement.Api.Models
         public RentalAgreement Agreement { get; set; } = null!;
         public int ShopId { get; set; }
         public int TenantId { get; set; }
+        public string CreatedByUserId { get; set; } = null!;
     }
 }

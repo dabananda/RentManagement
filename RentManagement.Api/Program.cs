@@ -6,6 +6,7 @@ using RentManagement.Api.Data;
 using RentManagement.Api.Interfaces;
 using RentManagement.Api.Models;
 using RentManagement.Api.Repositories;
+using RentManagement.Api.Security;
 using RentManagement.Api.Services;
 using System.Text;
 
@@ -68,6 +69,8 @@ builder.Services.AddScoped<IRentalAgreementRepository, RentalAgreementRepository
 builder.Services.AddScoped<IRentalAgreementService, RentalAgreementService>();
 builder.Services.AddScoped<IRentRecordRepository, RentRecordRepository>();
 builder.Services.AddScoped<IRentRecordService, RentRecordService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
 builder.Services.AddCors();
 

@@ -7,5 +7,6 @@
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public IEnumerable<RentalAgreement> RentalAgreements { get; set; } = null!;
+        public string CreatedByUserId { get; set; } = null!;
     }
 }

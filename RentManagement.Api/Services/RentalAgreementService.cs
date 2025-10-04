@@ -2,6 +2,7 @@
 using RentManagement.Api.DTOs;
 using RentManagement.Api.Interfaces;
 using RentManagement.Api.Models;
+using RentManagement.Api.Security;
 
 namespace RentManagement.Api.Services
 {
@@ -11,17 +12,20 @@ namespace RentManagement.Api.Services
         private readonly IShopRepository _shopRepository;
         private readonly ITenantRepository _tenantRepository;
         private readonly IMapper _mapper;
+        private readonly ICurrentUser _currentUser;
 
         public RentalAgreementService(
             IRentalAgreementRepository agreementRepository,
             IShopRepository shopRepository,
             ITenantRepository tenantRepository,
-            IMapper mapper)
+            IMapper mapper,
+            ICurrentUser currentUser)
         {
             _agreementRepository = agreementRepository;
             _shopRepository = shopRepository;
             _tenantRepository = tenantRepository;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
 
         public async Task<Tuple<RentalAgreementDto?, string?>> CreateAgreementAsync(RentalAgreementCreateDto agreementDto)
@@ -36,6 +40,7 @@ namespace RentManagement.Api.Services
 
             var agreement = _mapper.Map<RentalAgreement>(agreementDto);
             agreement.IsActive = true;
+            agreement.CreatedByUserId = _currentUser.UserId!;
 
             shop.IsOccupied = true;
             _shopRepository.UpdateShop(shop);

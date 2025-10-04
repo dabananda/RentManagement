@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RentManagement.Api.Models;
+using RentManagement.Api.Security;
 
 namespace RentManagement.Api.Data
 {
     public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        private readonly ICurrentUser _currentUser;
+        public AppDbContext(DbContextOptions<AppDbContext> options, ICurrentUser currentUser) : base(options)
+        {
+            _currentUser = currentUser;
+        }
 
         public DbSet<Shop> Shops { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
@@ -16,6 +21,18 @@ namespace RentManagement.Api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Shop>()
+                .HasQueryFilter(e => e.CreatedByUserId == _currentUser.UserId);
+
+            modelBuilder.Entity<Tenant>()
+                .HasQueryFilter(e => e.CreatedByUserId == _currentUser.UserId);
+
+            modelBuilder.Entity<RentalAgreement>()
+                .HasQueryFilter(e => e.CreatedByUserId == _currentUser.UserId);
+
+            modelBuilder.Entity<RentRecord>()
+                .HasQueryFilter(e => e.CreatedByUserId == _currentUser.UserId);
 
             modelBuilder.Entity<RentalAgreement>()
                 .HasOne(ra => ra.Shop)

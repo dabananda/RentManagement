@@ -11,5 +11,6 @@ namespace RentManagement.Api.Models
         public string Floor { get; set; } = string.Empty;
         public bool IsOccupied { get; set; }
         public IEnumerable<RentalAgreement> RentalAgreements { get; set; } = null!;
+        public string CreatedByUserId { get; set; } = null!;
     }
 }

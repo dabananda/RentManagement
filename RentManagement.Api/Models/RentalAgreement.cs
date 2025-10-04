@@ -16,5 +16,6 @@ namespace RentManagement.Api.Models
         public Shop Shop { get; set; } = null!;
         public int TenantId { get; set; }
         public Tenant Tenant { get; set; } = null!;
+        public string CreatedByUserId { get; set; } = null!;
     }
 }
