@@ -66,6 +66,8 @@ builder.Services.AddScoped<ITenantRepository, TenantRepository>();
 builder.Services.AddScoped<ITenantService, TenantService>();
 builder.Services.AddScoped<IRentalAgreementRepository, RentalAgreementRepository>();
 builder.Services.AddScoped<IRentalAgreementService, RentalAgreementService>();
+builder.Services.AddScoped<IRentRecordRepository, RentRecordRepository>();
+builder.Services.AddScoped<IRentRecordService, RentRecordService>();
 
 builder.Services.AddCors();
 

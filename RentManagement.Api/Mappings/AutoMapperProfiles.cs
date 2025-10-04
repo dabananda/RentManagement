@@ -37,6 +37,11 @@ namespace RentManagement.Api.Mappings
             CreateMap<RentalAgreement, AgreementWithTenantDto>()
                 .ForMember(dest => dest.Tenant, opt => opt.MapFrom(src => src.Tenant))
                 .ReverseMap();
+
+            CreateMap<RentRecord, RentRecordListDto>();
+            CreateMap<RentRecord, RentRecordDto>()
+                .ForMember(dest => dest.Agreement, opt => opt.MapFrom(src => src.Agreement))
+                .ForMember(dest => dest.Shop, opt => opt.MapFrom(src => src.Agreement.Shop));
         }
     }
 }

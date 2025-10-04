@@ -37,5 +37,17 @@ namespace RentManagement.Api.Repositories
         {
             return (await _context.SaveChangesAsync() >= 0);
         }
+
+        public async Task<RentalAgreement?> GetActiveAgreementForShopAsync(int shopId, DateOnly onDate)
+        {
+            return await _context.RentalAgreements
+                .Include(ra => ra.Shop)
+                .Include(ra => ra.Tenant)
+                .Where(ra => ra.ShopId == shopId
+                          && ra.IsActive
+                          && ra.StartDate <= onDate
+                          && (ra.EndDate == null || ra.EndDate >= onDate))
+                .FirstOrDefaultAsync();
+        }
     }
 }
