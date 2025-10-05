@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ShopList } from '../_models/shop';
 
@@ -11,18 +11,6 @@ export class ShopService {
   private baseUrl = environment.apiUrl;
 
   shops = signal<ShopList[]>([]);
-  private loaded = signal(false);
-
-  constructor() {
-    effect(() => {
-      this.reset();
-    });
-  }
-
-  reset() {
-    this.shops.set([]);
-    this.loaded.set(false);
-  }
 
   getShops() {
     return this.http.get<ShopList[]>(`${this.baseUrl}/shop`).subscribe({

@@ -12,11 +12,7 @@ export class ShopList implements OnInit {
 
   ngOnInit(): void {
     if (this.shopService.shops().length === 0) {
-      this.loadShops();
+      this.shopService.getShops();
     }
-  }
-
-  loadShops() {
-    this.shopService.getShops();
   }
 }
