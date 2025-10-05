@@ -1,13 +1,39 @@
-<div>
-  <h1>Shop List</h1>
-  <ul>
-    @for (shop of shopService.shops(); track shop.id) {
-    <li>Id: {{ shop.id }}</li>
-    <li>Shop Number: {{ shop.shopNumber }}</li>
-    <li>Floor: {{ shop.floor }}</li>
-    <li>Area (SqFt):{{ shop.areaSqFt }}</li>
-    <li>Occupied: {{ shop.isOccupied }}</li>
-    <li>Agreement: {{ shop.agreements }}</li>
-    }
-  </ul>
+<div class="my-4">
+  <div class="text-center mb-3"><h4>Shop List</h4></div>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Shop Number</th>
+        <th scope="col">Floor</th>
+        <th scope="col">Area</th>
+        <th scope="col">Occupied</th>
+        <th scope="col">Agreement</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (shop of shopService.shops(); track shop.id) {
+      <tr>
+        <th scope="row">{{ shop.id }}</th>
+        <td>{{ shop.shopNumber }}</td>
+        <td>{{ shop.floor }}</td>
+        <td>{{ shop.areaSqFt }}</td>
+        <td>{{ shop.isOccupied }}</td>
+        <td>{{ shop.agreements }}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-info" routerLink="/shop/{{ shop.id }}">
+            Details
+          </button>
+          <button class="btn btn-sm btn-outline-warning mx-2" routerLink="/shop/{{ shop.id }}">
+            Update
+          </button>
+          <button class="btn btn-sm btn-outline-danger" routerLink="/shop/{{ shop.id }}">
+            Delete
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>

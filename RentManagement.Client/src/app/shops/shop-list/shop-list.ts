@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ShopService } from '../../_services/shop.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-shop-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './shop-list.html',
   styleUrl: './shop-list.css',
 })

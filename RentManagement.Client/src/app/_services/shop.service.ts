@@ -24,6 +24,10 @@ export class ShopService {
     });
   }
 
+  getShop(id: number) {
+    return this.http.get<ShopList>(`${this.baseUrl}/shop/${id}`);
+  }
+
   getShops() {
     return this.http.get<ShopList[]>(`${this.baseUrl}/shop`).subscribe({
       next: (shops) => {
