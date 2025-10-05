@@ -1,0 +1,26 @@
+<div class="row my-4">
+    <div class="col-md-4 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-center text-light p-3">
+                <h5 class="card-title">Tenant Details</h5>
+            </div>
+            <div class="card-body">
+                <div>
+                    <strong>Id:</strong> {{tenant()?.id}}
+                </div>
+                <hr/>
+                <div>
+                    <strong>Name:</strong> {{tenant()?.name}}
+                </div>
+                <hr/>
+                <div>
+                    <strong>Phone:</strong> {{tenant()?.phone}}
+                </div>
+                <hr/>
+                <div>
+                    <strong>Email:</strong> {{tenant()?.email}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

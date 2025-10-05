@@ -14,3 +14,11 @@ export interface ShopUpdate {
   areaSqFt: number;
   floor: string;
 }
+
+export interface ShopDetails {
+  id: number;
+  shopNumber: string;
+  areaSqFt: number;
+  floor: string;
+  isOccupied: boolean;
+}

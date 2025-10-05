@@ -1,0 +1,86 @@
+<div class="my-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Tenant List</h4>
+    <button class="btn btn-primary" routerLink="/tenant/create">
+      <i class="bi bi-plus-circle me-1"></i> Create Tenant
+    </button>
+  </div>
+  
+  @if (error()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ error() }}
+      <button type="button" class="btn-close" (click)="error.set(null)"></button>
+    </div>
+  }
+
+  @if (successMessage()) {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ successMessage() }}
+      <button type="button" class="btn-close" (click)="successMessage.set(null)"></button>
+    </div>
+  }
+
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Tenant Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Email</th>
+        <th scope="col">Agreements</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (tenant of tenantService.tenants(); track tenant.id) {
+      <tr>
+        <th scope="row">{{ tenant.id }}</th>
+        <td>{{ tenant.name }}</td>
+        <td>{{ tenant.phone }}</td>
+        <td>{{ tenant.email }}</td>
+        <td>{{ tenant.agreements }}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-info" routerLink="/tenant/{{ tenant.id }}">
+            Details
+          </button>
+          <button class="btn btn-sm btn-outline-warning mx-2" routerLink="/tenant/{{ tenant.id }}/update">
+            Update
+          </button>
+          <button 
+            class="btn btn-sm btn-outline-danger" 
+            (click)="confirmDelete(tenant.id, tenant.name)"
+            [disabled]="deleting() === tenant.id">
+            @if (deleting() === tenant.id) {
+              <span class="spinner-border spinner-border-sm" role="status"></span>
+            } @else {
+              Delete
+            }
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+
+@if (showDeleteModal()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Delete</h5>
+          <button type="button" class="btn-close" (click)="cancelDelete()"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete tenant <strong>{{ tenantToDelete()?.name }}</strong>?</p>
+          <p class="text-danger mb-0">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="deleteTenant()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

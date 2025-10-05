@@ -1,3 +1,4 @@
+import { ShopDetails } from './shop';
 import { TenantDetails } from './tenant';
 
 export interface AgreementWithTenant {
@@ -9,4 +10,14 @@ export interface AgreementWithTenant {
   isActive: boolean;
   tenantId: number;
   tenant: TenantDetails;
+}
+
+export interface AgreementWithShop {
+  id: number;
+  rentAmount: number;
+  securityFee: number;
+  startDate: string;
+  endDate?: string | null;
+  isActive: boolean;
+  shop: ShopDetails;
 }
