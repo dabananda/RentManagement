@@ -1,5 +1,20 @@
 <div class="my-4">
   <div class="text-center mb-3"><h4>Shop List</h4></div>
+  
+  @if (error()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ error() }}
+      <button type="button" class="btn-close" (click)="error.set(null)"></button>
+    </div>
+  }
+
+  @if (successMessage()) {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      {{ successMessage() }}
+      <button type="button" class="btn-close" (click)="successMessage.set(null)"></button>
+    </div>
+  }
+
   <table class="table table-striped table-hover">
     <thead>
       <tr>
@@ -25,11 +40,18 @@
           <button class="btn btn-sm btn-outline-info" routerLink="/shop/{{ shop.id }}">
             Details
           </button>
-          <button class="btn btn-sm btn-outline-warning mx-2" routerLink="/shop/{{ shop.id }}">
+          <button class="btn btn-sm btn-outline-warning mx-2" routerLink="/shop/{{ shop.id }}/update">
             Update
           </button>
-          <button class="btn btn-sm btn-outline-danger" routerLink="/shop/{{ shop.id }}">
-            Delete
+          <button 
+            class="btn btn-sm btn-outline-danger" 
+            (click)="confirmDelete(shop.id, shop.shopNumber)"
+            [disabled]="deleting() === shop.id">
+            @if (deleting() === shop.id) {
+              <span class="spinner-border spinner-border-sm" role="status"></span>
+            } @else {
+              Delete
+            }
           </button>
         </td>
       </tr>
@@ -37,3 +59,25 @@
     </tbody>
   </table>
 </div>
+
+<!-- Delete Confirmation Modal -->
+@if (showDeleteModal()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Delete</h5>
+          <button type="button" class="btn-close" (click)="cancelDelete()"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete shop <strong>{{ shopToDelete()?.shopNumber }}</strong>?</p>
+          <p class="text-danger mb-0">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="deleteShop()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

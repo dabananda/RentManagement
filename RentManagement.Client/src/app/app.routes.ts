@@ -6,6 +6,7 @@ import { NotFound } from './not-found/not-found';
 import { Home } from './home/home';
 import { ShopList } from './shops/shop-list/shop-list';
 import { Shop } from './shops/shop/shop';
+import { ShopUpdateComponent } from './shops/shop-update/shop-update';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Home Page' },
@@ -14,5 +15,6 @@ export const routes: Routes = [
   { path: 'confirm-email', component: ConfirmEmail, title: 'Confirm Email' },
   { path: 'shops', component: ShopList, title: 'Shop List' },
   { path: 'shop/:id', component: Shop, title: 'Shop Details' },
+  { path: 'shop/:id/update', component: ShopUpdateComponent, title: 'Update Shop' },
   { path: '**', component: NotFound, title: 'Not Found' },
 ];

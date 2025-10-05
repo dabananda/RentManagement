@@ -8,3 +8,9 @@ export interface ShopList {
   isOccupied: boolean;
   agreements: AgreementWithTenant[];
 }
+
+export interface ShopUpdate {
+  shopNumber: string;
+  areaSqFt: number;
+  floor: string;
+}

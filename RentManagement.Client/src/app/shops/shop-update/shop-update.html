@@ -1,0 +1,90 @@
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0">Update Shop</h4>
+        </div>
+        <div class="card-body">
+          @if (loading()) {
+          <div class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          } @else if (error()) {
+          <div class="alert alert-danger" role="alert">
+            {{ error() }}
+          </div>
+          } @else {
+          <form [formGroup]="shopForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="shopNumber" class="form-label">Shop Number</label>
+              <input
+                type="text"
+                class="form-control"
+                id="shopNumber"
+                formControlName="shopNumber"
+                [class.is-invalid]="
+                  shopForm.get('shopNumber')?.invalid && shopForm.get('shopNumber')?.touched
+                "
+              />
+              @if (shopForm.get('shopNumber')?.invalid && shopForm.get('shopNumber')?.touched) {
+              <div class="invalid-feedback">Shop number is required</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="floor" class="form-label">Floor</label>
+              <input
+                type="text"
+                class="form-control"
+                id="floor"
+                formControlName="floor"
+                [class.is-invalid]="
+                  shopForm.get('floor')?.invalid && shopForm.get('floor')?.touched
+                "
+              />
+              @if (shopForm.get('floor')?.invalid && shopForm.get('floor')?.touched) {
+              <div class="invalid-feedback">Floor is required</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="areaSqFt" class="form-label">Area (sq ft)</label>
+              <input
+                type="number"
+                class="form-control"
+                id="areaSqFt"
+                formControlName="areaSqFt"
+                [class.is-invalid]="
+                  shopForm.get('areaSqFt')?.invalid && shopForm.get('areaSqFt')?.touched
+                "
+              />
+              @if (shopForm.get('areaSqFt')?.invalid && shopForm.get('areaSqFt')?.touched) {
+              <div class="invalid-feedback">Area must be at least 1 sq ft</div>
+              }
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="loading()">
+                @if (loading()) {
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                } Update Shop
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="cancel()"
+                [disabled]="loading()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ShopList } from '../_models/shop';
+import { ShopList, ShopUpdate } from '../_models/shop';
 import { Account } from './account';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +38,26 @@ export class ShopService {
         console.error('Error loading shops:', error);
       },
     });
+  }
+
+  getShopForUpdate(id: number) {
+    return this.http.get<ShopUpdate>(`${this.baseUrl}/shop/${id}`);
+  }
+
+  updateShop(id: number, shop: ShopUpdate) {
+    return this.http.put<ShopUpdate>(`${this.baseUrl}/shop/${id}`, shop).pipe(
+      tap(() => {
+        this.getShop(id);
+        this.getShops();
+      })
+    );
+  }
+
+  deleteShop(id: number) {
+    return this.http.delete(`${this.baseUrl}/shop/${id}`).pipe(
+      tap(() => {
+        this.getShops();
+      })
+    );
   }
 }
