@@ -1,18 +1,18 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { TokenService } from '../_services/token.service';
+import { AuthStoreService } from '../_services/auth-store.service';
 
-const BYPASS = ['/auth/login', 'auth/register'];
+const BYPASS = ['/auth/login', 'auth/register', '/auth/ConfirmEmail'];
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const tokenService = inject(TokenService);
+  const authStoreService = inject(AuthStoreService);
 
   // skip if matched a bypassed path
   if (BYPASS.some((p) => req.url.includes(p))) {
     return next(req);
   }
 
-  const token = tokenService.token;
+  const token = authStoreService.token;
   if (!token) {
     return next(req);
   }

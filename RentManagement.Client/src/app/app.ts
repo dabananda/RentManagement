@@ -14,14 +14,6 @@ export class App implements OnInit {
   private accountService = inject(Account);
 
   ngOnInit(): void {
-    this.getCurrentUser();
-  }
-
-  getCurrentUser() {
-    const userString = localStorage.getItem('user');
-    if (userString) {
-      const user = JSON.parse(userString);
-      this.accountService.currentUser.set(user);
-    }
+    this.accountService.hydrateFromStore()
   }
 }

@@ -4,29 +4,35 @@ import { environment } from '../../environments/environment';
 import { tap } from 'rxjs';
 import { LoginResponse } from '../_models/login-response';
 import { ApiMessage } from '../_models/api-message';
-import { TokenService } from './token.service';
 import { User } from '../_models/user';
+import { AuthStoreService } from './auth-store.service';
+import { Router } from '@angular/router';
+import { AuthState } from '../_models/auth-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Account {
   private http = inject(HttpClient);
-  private tokenService = inject(TokenService);
+  private authStoreService = inject(AuthStoreService);
+  private router = inject(Router);
   private baseUrl = environment.apiUrl;
+
   currentUser = signal<User | null>(null);
 
   login(model: { email: string; password: string }) {
     return this.http.post<LoginResponse>(`${this.baseUrl}/auth/login`, model).pipe(
       tap((res) => {
-        if (res?.token) {
-          const user: User = { email: model.email, token: res.token };
-          localStorage.setItem('user', JSON.stringify(user));
-          this.tokenService.set(user.token);
-          this.currentUser.set(user);
-        } else {
-          console.log('No token in response');
-        }
+        if (!res?.token) return;
+
+        const state: AuthState = {
+          email: res.email,
+          token: res.token,
+          roles: res.roles ?? [],
+        };
+        
+        this.authStoreService.set(state);
+        this.currentUser.set({ email: state.email, token: state.token });
       })
     );
   }
@@ -40,8 +46,14 @@ export class Account {
     return this.http.post<ApiMessage>(`${this.baseUrl}/auth/ConfirmEmail`, null, { params });
   }
 
+  hydrateFromStore() {
+    const s = this.authStoreService.state;
+    if (s) this.currentUser.set({ email: s.email, token: s.token });
+  }
+
   logout() {
+    this.authStoreService.clear();
     this.currentUser.set(null);
-    this.tokenService.set(null);
+    this.router.navigate(['/login']);
   }
 }

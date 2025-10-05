@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Shop } from '../shops/shop/shop';
 import { ShopList } from '../_models/shop';
-import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +9,20 @@ import { tap } from 'rxjs';
 export class ShopService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
+
   shops = signal<ShopList[]>([]);
+  private loaded = signal(false);
+
+  constructor() {
+    effect(() => {
+      this.reset();
+    });
+  }
+
+  reset() {
+    this.shops.set([]);
+    this.loaded.set(false);
+  }
 
   getShops() {
     return this.http.get<ShopList[]>(`${this.baseUrl}/shop`).subscribe({
