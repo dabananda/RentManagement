@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Navbar } from './navbar/navbar';
 import { Account } from './_services/account';
 import { RouterOutlet } from '@angular/router';
+import { TokenService } from './_services/token.service';
 
 @Component({
   selector: 'app-root',

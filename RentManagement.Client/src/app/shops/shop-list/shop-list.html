@@ -1,0 +1,13 @@
+<div>
+  <h1>Shop List</h1>
+  <ul>
+    @for (shop of shopService.shops(); track shop.id) {
+    <li>Id: {{ shop.id }}</li>
+    <li>Shop Number: {{ shop.shopNumber }}</li>
+    <li>Floor: {{ shop.floor }}</li>
+    <li>Area (SqFt):{{ shop.areaSqFt }}</li>
+    <li>Occupied: {{ shop.isOccupied }}</li>
+    <li>Agreement: {{ shop.agreements }}</li>
+    }
+  </ul>
+</div>
