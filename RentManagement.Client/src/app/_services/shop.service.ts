@@ -40,6 +40,14 @@ export class ShopService {
     });
   }
 
+  createShop(shop: ShopUpdate) {
+    return this.http.post<ShopList>(`${this.baseUrl}/shop`, shop).pipe(
+      tap(() => {
+        this.getShops();
+      })
+    );
+  }
+
   getShopForUpdate(id: number) {
     return this.http.get<ShopUpdate>(`${this.baseUrl}/shop/${id}`);
   }

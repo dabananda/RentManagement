@@ -1,5 +1,10 @@
 <div class="my-4">
-  <div class="text-center mb-3"><h4>Shop List</h4></div>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Shop List</h4>
+    <button class="btn btn-primary" routerLink="/shop/create">
+      <i class="bi bi-plus-circle me-1"></i> Create Shop
+    </button>
+  </div>
   
   @if (error()) {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
