@@ -20,7 +20,7 @@
     </div>
   }
 
-  <table class="table table-striped table-hover">
+  <table class="table table-striped table-hover border border-2 shadow">
     <thead>
       <tr>
         <th scope="col">Id</th>
@@ -28,7 +28,6 @@
         <th scope="col">Floor</th>
         <th scope="col">Area</th>
         <th scope="col">Occupied</th>
-        <th scope="col">Agreement</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -39,8 +38,7 @@
         <td>{{ shop.shopNumber }}</td>
         <td>{{ shop.floor }}</td>
         <td>{{ shop.areaSqFt }}</td>
-        <td>{{ shop.isOccupied }}</td>
-        <td>{{ shop.agreements }}</td>
+        <td>{{ shop.isOccupied ? "Yes" : "No" }}</td>
         <td>
           <button class="btn btn-sm btn-outline-info" routerLink="/shop/{{ shop.id }}">
             Details
