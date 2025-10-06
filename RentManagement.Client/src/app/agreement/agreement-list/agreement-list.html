@@ -1,0 +1,149 @@
+<div class="my-4">
+  <button class="btn btn-primary" routerLink="/agreement/create">Create Agreement</button>
+
+  @if (successMessage()) {
+  <div class="alert alert-success mt-3" role="alert">
+    {{ successMessage() }}
+  </div>
+  } @if (error()) {
+  <div class="alert alert-danger mt-3" role="alert">
+    {{ error() }}
+  </div>
+  }
+
+  <div class="table-responsive mt-3">
+    <table class="table table-striped table-hover table-borderless table-primary align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Id</th>
+          <th>Monthly Rent</th>
+          <th>Security Amount</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Status</th>
+          <th>Shop</th>
+          <th>Tenant</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody class="table-group-divider">
+        @for (agreement of agreementService.agreements(); track agreement.id) {
+        <tr class="table-primary">
+          <td scope="row">{{ agreement.id }}</td>
+          <td>{{ agreement.rentAmount }}</td>
+          <td>{{ agreement.securityFee }}</td>
+          <td>{{ agreement.startDate }}</td>
+          <td>{{ agreement.endDate || 'N/A' }}</td>
+          <td>
+            <span [class]="agreement.isActive ? 'badge bg-success' : 'badge bg-secondary'">
+              {{ agreement.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td>{{ agreement.shop.shopNumber }}</td>
+          <td>{{ agreement.tenant.name }}</td>
+          <td>
+            <div class="btn-group" role="group">
+              <button
+                class="btn btn-sm btn-outline-info"
+                routerLink="/agreement/{{ agreement.id }}"
+              >
+                Details
+              </button>
+
+              <button
+                class="btn btn-sm btn-outline-warning"
+                routerLink="/agreement/{{ agreement.id }}/update"
+              >
+                Update
+              </button>
+
+              @if (agreement.isActive) {
+              <button
+                class="btn btn-sm btn-outline-secondary"
+                routerLink="/agreement/{{ agreement.id }}/end"
+              >
+                End
+              </button>
+              } @else {
+              <button
+                class="btn btn-sm btn-outline-danger"
+                (click)="confirmDelete(agreement.id)"
+                [disabled]="deleting() === agreement.id"
+              >
+                @if (deleting() === agreement.id) {
+                <span
+                  class="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                } Delete
+              </button>
+              }
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+@if (showDeleteModal()) {
+<div
+  class="modal fade show d-block"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteModalLabel">Delete Agreement</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          aria-label="Close"
+          (click)="cancelDelete()"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="alert alert-warning" role="alert">
+          <strong>Warning!</strong> This will permanently delete the agreement.
+        </div>
+
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <th scope="row" class="w-50">Agreement ID:</th>
+              <td>{{ agreementToDelete()?.id }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="deleteAgreement()"
+          [disabled]="deleting() === agreementToDelete()?.id"
+        >
+          @if (deleting() === agreementToDelete()?.id) {
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          } Delete Agreement
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop fade show"></div>
+}

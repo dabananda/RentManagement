@@ -12,6 +12,11 @@ import { TenantList } from './tenant/tenant-list/tenant-list';
 import { TenantDetails } from './tenant/tenant-details/tenant-details';
 import { TenantCreate } from './tenant/tenant-create/tenant-create';
 import { TenantUpdate } from './tenant/tenant-update/tenant-update';
+import { AgreementList } from './agreement/agreement-list/agreement-list';
+import { AgreementDetails } from './agreement/agreement-details/agreement-details';
+import { AgreementCreate } from './agreement/agreement-create/agreement-create';
+import { AgreementUpdate } from './agreement/agreement-update/agreement-update';
+import { AgreementEnd } from './agreement/agreement-end/agreement-end';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Home Page' },
@@ -26,5 +31,10 @@ export const routes: Routes = [
   { path: 'tenant/create', component: TenantCreate, title: 'Tenant Create' },
   { path: 'tenant/:id', component: TenantDetails, title: 'Tenant Details' },
   { path: 'tenant/:id/update', component: TenantUpdate, title: 'Tenant Details' },
+  { path: 'agreements', component: AgreementList, title: 'Agreement List' },
+  { path: 'agreement/create', component: AgreementCreate, title: 'Agreement Create' },
+  { path: 'agreement/:id', component: AgreementDetails, title: 'Agreement Details' },
+  { path: 'agreement/:id/update', component: AgreementUpdate, title: 'Agreement Details' },
+  { path: 'agreement/:id/end', component: AgreementEnd, title: 'Agreement Details' },
   { path: '**', component: NotFound, title: 'Not Found' },
 ];

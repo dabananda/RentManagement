@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Agreement of {{ agreement()?.shop?.shopNumber }}</h4>
+    <p class="card-text">Rent: {{ agreement()?.rentAmount }}</p>
+    <p class="card-text">Security fee: {{ agreement()?.securityFee }}</p>
+    <p class="card-text">Start: {{ agreement()?.startDate }}</p>
+    <p class="card-text">End: {{ agreement()?.endDate }}</p>
+    <p class="card-text">Status: {{ agreement()?.isActive }}</p>
+    <p class="card-text">Tenant: {{ agreement()?.tenant?.name }}</p>
+  </div>
+</div>

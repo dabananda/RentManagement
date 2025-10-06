@@ -1,0 +1,122 @@
+<div class="row my-4">
+  <div class="col-md-5 mx-auto">
+    <div class="card shadow">
+      <div class="card-header p-3 bg-primary text-light">
+        <h4 class="card-title text-center">Create Agreement</h4>
+      </div>
+      <div class="card-body pb-4">
+        @if (error()) {
+        <div class="alert alert-danger" role="alert">
+          {{ error() }}
+        </div>
+        }
+
+        <form class="form" [formGroup]="formAgreement" (ngSubmit)="onSubmit()">
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Montly Rent. e.g, 15000"
+              formControlName="rentAmount"
+              [class.is-invalid]="
+                formAgreement.get('rentAmount')?.invalid && formAgreement.get('rentAmount')?.touched
+              "
+            />
+            <label>Rent Amount</label>
+            @if (formAgreement.get('rentAmount')?.invalid &&
+            formAgreement.get('rentAmount')?.touched) {
+            <div class="invalid-feedback">Rent Amount is required</div>
+            }
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Security Fee"
+              formControlName="securityFee"
+              [class.is-invalid]="
+                formAgreement.get('securityFee')?.invalid &&
+                formAgreement.get('securityFee')?.touched
+              "
+            />
+            <label>Security Fee</label>
+            @if (formAgreement.get('securityFee')?.invalid &&
+            formAgreement.get('securityFee')?.touched) {
+            <div class="invalid-feedback">Security Fee is required</div>
+            }
+          </div>
+          <div class="form-floating mb-4">
+            <input
+              type="date"
+              class="form-control"
+              placeholder="Start Date"
+              formControlName="startDate"
+              [class.is-invalid]="
+                formAgreement.get('startDate')?.invalid && formAgreement.get('startDate')?.touched
+              "
+            />
+            <label>Start Date</label>
+            @if (formAgreement.get('startDate')?.invalid && formAgreement.get('startDate')?.touched)
+            {
+            <div class="invalid-feedback">Start Date is required</div>
+            }
+          </div>
+          <div class="form-floating mb-4">
+            <input
+              type="date"
+              class="form-control"
+              placeholder="End Date"
+              formControlName="endDate"
+            />
+            <label>End Date</label>
+          </div>
+          <div class="form-floating mb-4">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Tenant Id"
+              formControlName="tenantId"
+              [class.is-invalid]="
+                formAgreement.get('tenantId')?.invalid && formAgreement.get('tenantId')?.touched
+              "
+            />
+            <label>Tenant Id</label>
+            @if (formAgreement.get('tenantId')?.invalid && formAgreement.get('tenantId')?.touched) {
+            <div class="invalid-feedback">Tenant Id is required</div>
+            }
+          </div>
+          <div class="form-floating mb-4">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Shop Id"
+              formControlName="shopId"
+              [class.is-invalid]="
+                formAgreement.get('shopId')?.invalid && formAgreement.get('shopId')?.touched
+              "
+            />
+            <label>Shop Id</label>
+            @if (formAgreement.get('shopId')?.invalid && formAgreement.get('shopId')?.touched) {
+            <div class="invalid-feedback">Shop Id is required</div>
+            }
+          </div>
+          <div class="row">
+            <div class="col-md">
+              <button
+                type="button"
+                class="btn btn-outline-primary w-100 btn-lg"
+                (click)="cancel()"
+                [disabled]="loading()"
+              >
+                Go Back
+              </button>
+            </div>
+            <div class="col-md">
+              <button type="submit" class="btn btn-primary w-100 btn-lg">Create</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

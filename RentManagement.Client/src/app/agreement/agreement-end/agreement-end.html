@@ -1,0 +1,64 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-secondary text-white text-center">
+          <h4>End Agreement</h4>
+        </div>
+        <div class="card-body">
+          @if (error()) {
+            <div class="alert alert-danger" role="alert">
+              {{ error() }}
+            </div>
+          }
+          @if (loading()) {
+            <div class="text-center">
+              <div class="spinner-border text-secondary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          } @else if (agreement()) {
+            <p class="mb-4 text-center">
+              Are you sure you want to <strong>end</strong> this agreement?
+            </p>
+            <table class="table table-bordered">
+              <tr>
+                <th>Agreement ID</th>
+                <td>{{ agreement()!.id }}</td>
+              </tr>
+              <tr>
+                <th>Tenant</th>
+                <td>{{ agreement()!.tenant.name }}</td>
+              </tr>
+              <tr>
+                <th>Shop</th>
+                <td>{{ agreement()!.shop.shopNumber }}</td>
+              </tr>
+              <tr>
+                <th>Rent Amount</th>
+                <td>{{ agreement()!.rentAmount }}</td>
+              </tr>
+              <tr>
+                <th>Start Date</th>
+                <td>{{ agreement()!.startDate }}</td>
+              </tr>
+              <tr>
+                <th>End Date</th>
+                <td>{{ agreement()!.endDate || 'N/A' }}</td>
+              </tr>
+            </table>
+
+            <div class="d-flex justify-content-between mt-4">
+              <button class="btn btn-outline-secondary w-50 me-2" (click)="cancel()" [disabled]="loading()">
+                Cancel
+              </button>
+              <button class="btn btn-danger w-50" (click)="confirmEnd()" [disabled]="loading()">
+                End Agreement
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
