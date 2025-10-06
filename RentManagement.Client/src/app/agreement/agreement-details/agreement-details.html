@@ -1,11 +1,135 @@
-<div class="card">
-  <div class="card-body">
-    <h4 class="card-title">Agreement of {{ agreement()?.shop?.shopNumber }}</h4>
-    <p class="card-text">Rent: {{ agreement()?.rentAmount }}</p>
-    <p class="card-text">Security fee: {{ agreement()?.securityFee }}</p>
-    <p class="card-text">Start: {{ agreement()?.startDate }}</p>
-    <p class="card-text">End: {{ agreement()?.endDate }}</p>
-    <p class="card-text">Status: {{ agreement()?.isActive }}</p>
-    <p class="card-text">Tenant: {{ agreement()?.tenant?.name }}</p>
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <!-- Header Card -->
+      <div class="card shadow border-0 mb-4">
+        <div class="card-header bg-primary text-white p-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="mb-1"><i class="bi bi-file-text me-2"></i>Agreement Details</h5>
+              <p class="mb-0 opacity-75">Shop No: {{ agreement()?.shop?.shopNumber }}</p>
+            </div>
+            <div>
+              @if (agreement()?.isActive) {
+              <span class="badge bg-light text-black px-3 py-2">
+                <i class="bi bi-check-circle me-1"></i>Active
+              </span>
+              } @else {
+              <span class="badge bg-secondary px-3 py-2">
+                <i class="bi bi-x-circle me-1"></i>Inactive
+              </span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-4">
+          <!-- Shop Information -->
+          <div class="mb-4">
+            <h5 class="text-primary mb-3"><i class="bi bi-shop me-2"></i>Shop Information</h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">Shop Number</small>
+                  <strong class="">{{ agreement()?.shop?.shopNumber }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">Floor</small>
+                  <strong class="">{{ agreement()?.shop?.floor }}</strong>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">Area</small>
+                  <strong class="">{{ agreement()?.shop?.areaSqFt }} sq ft</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tenant Information -->
+          <div class="mb-4">
+            <h5 class="text-primary mb-3"><i class="bi bi-person me-2"></i>Tenant Information</h5>
+            <div class="row g-3">
+              <div class="col-md-12">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">Name</small>
+                  <strong class="">{{ agreement()?.tenant?.name }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">Phone</small>
+                  <strong>{{ agreement()?.tenant?.phone }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">Email</small>
+                  <strong>{{ agreement()?.tenant?.email }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Financial Information -->
+          <div class="mb-4">
+            <h5 class="text-primary mb-3">
+              <i class="bi bi-currency-dollar me-2"></i>Financial Details
+            </h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="p-3 border border-primary rounded">
+                  <small class="text-muted d-block mb-1">Monthly Rent</small>
+                  <strong class="text-primary">৳{{ agreement()?.rentAmount }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 border border-success rounded">
+                  <small class="text-muted d-block mb-1">Security Deposit</small>
+                  <strong class="text-success">৳{{ agreement()?.securityFee }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Agreement Period -->
+          <div class="mb-4">
+            <h5 class="text-primary mb-3">
+              <i class="bi bi-calendar-range me-2"></i>Agreement Period
+            </h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">Start Date</small>
+                  <strong>{{ agreement()?.startDate }}</strong>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded">
+                  <small class="text-muted d-block mb-1">End Date</small>
+                  <strong>
+                    @if (agreement()?.endDate) {
+                    {{ agreement()?.endDate }}
+                    } @else {
+                    <span class="text-muted fst-italic">Ongoing</span>
+                    }
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-flex gap-2 mt-4">
+            <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+              <i class="bi bi-arrow-left me-2"></i>Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
