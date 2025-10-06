@@ -17,6 +17,7 @@ import { AgreementDetails } from './agreement/agreement-details/agreement-detail
 import { AgreementCreate } from './agreement/agreement-create/agreement-create';
 import { AgreementUpdate } from './agreement/agreement-update/agreement-update';
 import { AgreementEnd } from './agreement/agreement-end/agreement-end';
+import { RentList } from './rent/rent-list/rent-list';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Home Page' },
@@ -36,5 +37,6 @@ export const routes: Routes = [
   { path: 'agreement/:id', component: AgreementDetails, title: 'Agreement Details' },
   { path: 'agreement/:id/update', component: AgreementUpdate, title: 'Agreement Details' },
   { path: 'agreement/:id/end', component: AgreementEnd, title: 'Agreement Details' },
+  { path: 'rents', component: RentList, title: 'Rent List' },
   { path: '**', component: NotFound, title: 'Not Found' },
 ];
