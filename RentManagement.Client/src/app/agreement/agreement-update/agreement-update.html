@@ -1,132 +1,165 @@
 <div class="container my-4">
   <div class="row">
     <div class="col-md-6 mx-auto">
-    <div class="card shadow">
-      <div class="card-header p-3 bg-warning text-dark">
-        <h4 class="card-title text-center">Update Agreement</h4>
-      </div>
-      <div class="card-body pb-4">
-        @if (error()) {
-        <div class="alert alert-danger" role="alert">
-          {{ error() }}
+      <div class="card shadow">
+        <div class="card-header p-3 bg-warning text-dark">
+          <h4 class="card-title text-center">Update Agreement</h4>
         </div>
-        }
+        <div class="card-body pb-4">
+          @if (error()) {
+          <div class="alert alert-danger" role="alert">
+            {{ error() }}
+          </div>
+          }
 
-        @if (loading() && !formAgreement.value.rentAmount) {
-        <div class="text-center">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+          @if (loading() && !formAgreement.value.rentAmount) {
+          <div class="text-center py-5">
+            <div class="spinner-border text-warning" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 text-muted">Loading agreement details...</p>
           </div>
-        </div>
-        } @else {
-        <form class="form" [formGroup]="formAgreement" (ngSubmit)="onSubmit()">
-          <div class="form-floating mb-3">
-            <input
-              type="number"
-              class="form-control"
-              placeholder="Monthly Rent. e.g, 15000"
-              formControlName="rentAmount"
-              [class.is-invalid]="
-                formAgreement.get('rentAmount')?.invalid && formAgreement.get('rentAmount')?.touched
-              "
-            />
-            <label>Rent Amount</label>
-            @if (formAgreement.get('rentAmount')?.invalid &&
-            formAgreement.get('rentAmount')?.touched) {
-            <div class="invalid-feedback">Rent Amount is required</div>
-            }
-          </div>
-          <div class="form-floating mb-3">
-            <input
-              type="number"
-              class="form-control"
-              placeholder="Security Fee"
-              formControlName="securityFee"
-              [class.is-invalid]="
-                formAgreement.get('securityFee')?.invalid &&
-                formAgreement.get('securityFee')?.touched
-              "
-            />
-            <label>Security Fee</label>
-            @if (formAgreement.get('securityFee')?.invalid &&
-            formAgreement.get('securityFee')?.touched) {
-            <div class="invalid-feedback">Security Fee is required</div>
-            }
-          </div>
-          <div class="form-floating mb-4">
-            <input
-              type="date"
-              class="form-control"
-              placeholder="Start Date"
-              formControlName="startDate"
-              [class.is-invalid]="
-                formAgreement.get('startDate')?.invalid && formAgreement.get('startDate')?.touched
-              "
-            />
-            <label>Start Date</label>
-            @if (formAgreement.get('startDate')?.invalid && formAgreement.get('startDate')?.touched)
-            {
-            <div class="invalid-feedback">Start Date is required</div>
-            }
-          </div>
-          <div class="form-floating mb-4">
-            <input
-              type="date"
-              class="form-control"
-              placeholder="End Date"
-              formControlName="endDate"
-            />
-            <label>End Date</label>
-          </div>
-          <div class="form-floating mb-4">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Tenant Id"
-              formControlName="tenantId"
-              [class.is-invalid]="
-                formAgreement.get('tenantId')?.invalid && formAgreement.get('tenantId')?.touched
-              "
-            />
-            <label>Tenant Id</label>
-            @if (formAgreement.get('tenantId')?.invalid && formAgreement.get('tenantId')?.touched) {
-            <div class="invalid-feedback">Tenant Id is required</div>
-            }
-          </div>
-          <div class="form-floating mb-4">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Shop Id"
-              formControlName="shopId"
-              [class.is-invalid]="
-                formAgreement.get('shopId')?.invalid && formAgreement.get('shopId')?.touched
-              "
-            />
-            <label>Shop Id</label>
-            @if (formAgreement.get('shopId')?.invalid && formAgreement.get('shopId')?.touched) {
-            <div class="invalid-feedback">Shop Id is required</div>
-            }
-          </div>
-          <div class="row">
-            <div class="col-md">
-              <button
-                type="button"
-                class="btn btn-outline-warning w-100 btn-lg"
-                (click)="cancel()"
-                [disabled]="loading()"
+          } @else {
+          <form class="form" [formGroup]="formAgreement" (ngSubmit)="onSubmit()">
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                formControlName="shopId"
+                [class.is-invalid]="
+                  formAgreement.get('shopId')?.invalid && formAgreement.get('shopId')?.touched
+                "
               >
-                Cancel
-              </button>
+                <option value="" disabled>Select a shop</option>
+                @for (shop of availableShops(); track shop.id) {
+                <option [value]="shop.id">
+                  Shop {{ shop.shopNumber }} - Floor {{ shop.floor }} ({{ shop.areaSqFt }} sq ft)
+                  @if (shop.id === currentShopId()) {
+                    <span>(Current)</span>
+                  }
+                </option>
+                }
+              </select>
+              <label>Shop</label>
+              @if (formAgreement.get('shopId')?.invalid && formAgreement.get('shopId')?.touched) {
+              <div class="invalid-feedback">Shop selection is required</div>
+              }
             </div>
-            <div class="col-md">
-              <button type="submit" class="btn btn-warning w-100 btn-lg" [disabled]="loading()">
-                Update
-              </button>
+
+            <div class="form-floating mb-3">
+              <select
+                class="form-select"
+                formControlName="tenantId"
+                [class.is-invalid]="
+                  formAgreement.get('tenantId')?.invalid && formAgreement.get('tenantId')?.touched
+                "
+              >
+                <option value="" disabled>Select a tenant</option>
+                @for (tenant of availableTenants(); track tenant.id) {
+                <option [value]="tenant.id">
+                  {{ tenant.name }} - {{ tenant.phone }}
+                  @if (tenant.id === currentTenantId()) {
+                    <span>(Current)</span>
+                  }
+                </option>
+                }
+              </select>
+              <label>Tenant</label>
+              @if (formAgreement.get('tenantId')?.invalid && formAgreement.get('tenantId')?.touched) {
+              <div class="invalid-feedback">Tenant selection is required</div>
+              }
             </div>
-          </div>
-        </form>
-        }
+
+            <div class="form-floating mb-3">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Monthly Rent. e.g, 15000"
+                formControlName="rentAmount"
+                [class.is-invalid]="
+                  formAgreement.get('rentAmount')?.invalid && formAgreement.get('rentAmount')?.touched
+                "
+              />
+              <label>Rent Amount</label>
+              @if (formAgreement.get('rentAmount')?.invalid &&
+              formAgreement.get('rentAmount')?.touched) {
+              <div class="invalid-feedback">Rent Amount is required</div>
+              }
+            </div>
+
+            <div class="form-floating mb-3">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Security Fee"
+                formControlName="securityFee"
+                [class.is-invalid]="
+                  formAgreement.get('securityFee')?.invalid &&
+                  formAgreement.get('securityFee')?.touched
+                "
+              />
+              <label>Security Fee</label>
+              @if (formAgreement.get('securityFee')?.invalid &&
+              formAgreement.get('securityFee')?.touched) {
+              <div class="invalid-feedback">Security Fee is required</div>
+              }
+            </div>
+
+            <div class="form-floating mb-4">
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Start Date"
+                formControlName="startDate"
+                [class.is-invalid]="
+                  formAgreement.get('startDate')?.invalid && formAgreement.get('startDate')?.touched
+                "
+              />
+              <label>Start Date</label>
+              @if (formAgreement.get('startDate')?.invalid && formAgreement.get('startDate')?.touched)
+              {
+              <div class="invalid-feedback">Start Date is required</div>
+              }
+            </div>
+
+            <div class="form-floating mb-4">
+              <input
+                type="date"
+                class="form-control"
+                placeholder="End Date"
+                formControlName="endDate"
+              />
+              <label>End Date (Optional)</label>
+            </div>
+
+            <div class="row">
+              <div class="col-md">
+                <button
+                  type="button"
+                  class="btn btn-outline-warning w-100 btn-lg"
+                  (click)="cancel()"
+                  [disabled]="loading()"
+                >
+                  Cancel
+                </button>
+              </div>
+              <div class="col-md">
+                <button 
+                  type="submit" 
+                  class="btn btn-warning w-100 btn-lg" 
+                  [disabled]="loading()"
+                >
+                  @if (loading()) {
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Updating...
+                  } @else {
+                    Update
+                  }
+                </button>
+              </div>
+            </div>
+          </form>
+          }
+        </div>
       </div>
     </div>
   </div>
