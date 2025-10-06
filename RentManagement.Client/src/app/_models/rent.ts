@@ -14,8 +14,8 @@ export interface Rent {
 
 export interface RentCreate {
   shopId: number;
-  year: number;
-  month: number;
-  amount: number;
-  notes: string | null;
+  year?: number | null;
+  month?: number | null;
+  amount?: number | null;
+  notes?: string | null;
 }

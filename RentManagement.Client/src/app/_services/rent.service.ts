@@ -23,7 +23,7 @@ export class RentService {
   getRent(id: number) {
     const rent = this.rents().find((r) => r.id === id);
     if (rent !== undefined) return of(rent);
-    return this.http.get<Rent[]>(`${this.baseUrl}/RentRecord/${id}`);
+    return this.http.get<Rent>(`${this.baseUrl}/RentRecord/${id}`);
   }
 
   addRent(rent: RentCreate) {
