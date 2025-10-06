@@ -27,7 +27,6 @@
         <th scope="col">Tenant Name</th>
         <th scope="col">Phone</th>
         <th scope="col">Email</th>
-        <th scope="col">Agreements</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -38,7 +37,6 @@
         <td>{{ tenant.name }}</td>
         <td>{{ tenant.phone }}</td>
         <td>{{ tenant.email }}</td>
-        <td>{{ tenant.agreements }}</td>
         <td>
           <button class="btn btn-sm btn-outline-info" routerLink="/tenant/{{ tenant.id }}">
             Details
