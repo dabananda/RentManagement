@@ -1,8 +1,12 @@
 import { AgreementCreate as Agreement } from '../../_models/agreement';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { AgreementService } from '../../_services/agreement.service';
+import { ShopService } from '../../_services/shop.service';
+import { TenantService } from '../../_services/tenant.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ShopList } from '../../_models/shop';
+import { Tenant } from '../../_models/tenant';
 
 @Component({
   selector: 'app-agreement-create',
@@ -12,6 +16,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class AgreementCreate implements OnInit {
   private agreementService = inject(AgreementService);
+  private shopService = inject(ShopService);
+  private tenantService = inject(TenantService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
 
@@ -19,8 +25,13 @@ export class AgreementCreate implements OnInit {
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
 
+  availableShops = signal<ShopList[]>([]);
+  availableTenants = signal<Tenant[]>([]);
+
   ngOnInit(): void {
     this.initForm();
+    this.loadAvailableShops();
+    this.loadAvailableTenants();
   }
 
   initForm(): void {
@@ -32,6 +43,18 @@ export class AgreementCreate implements OnInit {
       tenantId: ['', Validators.required],
       shopId: ['', Validators.required],
     });
+  }
+
+  loadAvailableShops(): void {
+    const unoccupiedShops = this.shopService.shops().filter((shop) => !shop.isOccupied);
+    this.availableShops.set(unoccupiedShops);
+  }
+
+  loadAvailableTenants(): void {
+    const eligibleTenants = this.tenantService
+      .tenants()
+      .filter((tenant) => !tenant.agreements.some((agreement) => agreement.isActive));
+    this.availableTenants.set(eligibleTenants);
   }
 
   onSubmit(): void {
