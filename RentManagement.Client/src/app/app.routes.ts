@@ -19,12 +19,18 @@ import { AgreementUpdate } from './agreement/agreement-update/agreement-update';
 import { AgreementEnd } from './agreement/agreement-end/agreement-end';
 import { RentList } from './rent/rent-list/rent-list';
 import { authGuard } from './guards/auth-guard';
+import { guestGuard } from './guards/guest-guard';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Home Page' },
-  { path: 'login', component: Login, title: 'Login Page' },
-  { path: 'register', component: Register, title: 'Registration Page' },
-  { path: 'confirm-email', component: ConfirmEmail, title: 'Confirm Email' },
+  { path: 'login', component: Login, canActivate: [guestGuard], title: 'Login Page' },
+  { path: 'register', component: Register, canActivate: [guestGuard], title: 'Registration Page' },
+  {
+    path: 'confirm-email',
+    component: ConfirmEmail,
+    canActivate: [guestGuard],
+    title: 'Confirm Email',
+  },
 
   {
     path: 'shops',
