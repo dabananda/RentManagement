@@ -1,7 +1,7 @@
 <div class="my-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Shop List</h4>
-    <button class="btn btn-primary" routerLink="/shop/create">
+    <button class="btn btn-primary" routerLink="/shops/create">
       <i class="bi bi-plus-circle me-1"></i> Create Shop
     </button>
   </div>
@@ -40,10 +40,10 @@
         <td>{{ shop.areaSqFt }}</td>
         <td>{{ shop.isOccupied ? "Yes" : "No" }}</td>
         <td>
-          <button class="btn btn-sm btn-outline-info" routerLink="/shop/{{ shop.id }}">
+          <button class="btn btn-sm btn-outline-info" routerLink="/shops/{{ shop.id }}">
             Details
           </button>
-          <button class="btn btn-sm btn-outline-warning mx-2" routerLink="/shop/{{ shop.id }}/update">
+          <button class="btn btn-sm btn-outline-warning mx-2" routerLink="/shops/{{ shop.id }}/update">
             Update
           </button>
           <button 

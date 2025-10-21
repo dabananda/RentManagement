@@ -1,7 +1,7 @@
 <div class="my-4">
   <div class="d-flex justify-content-between">
     <h4>Agreement List</h4>
-    <button class="btn btn-primary" routerLink="/agreement/create">Create Agreement</button>
+    <button class="btn btn-primary" routerLink="/agreements/create">Create Agreement</button>
   </div>
 
   @if (successMessage()) {
@@ -49,14 +49,14 @@
             <div class="btn-group" role="group">
               <button
                 class="btn btn-sm btn-outline-info"
-                routerLink="/agreement/{{ agreement.id }}"
+                routerLink="/agreements/{{ agreement.id }}"
               >
                 Details
               </button>
 
               <button
                 class="btn btn-sm btn-outline-warning"
-                routerLink="/agreement/{{ agreement.id }}/update"
+                routerLink="/agreements/{{ agreement.id }}/update"
               >
                 Update
               </button>
@@ -64,7 +64,7 @@
               @if (agreement.isActive) {
               <button
                 class="btn btn-sm btn-outline-secondary"
-                routerLink="/agreement/{{ agreement.id }}/end"
+                routerLink="/agreements/{{ agreement.id }}/end"
               >
                 End
               </button>
