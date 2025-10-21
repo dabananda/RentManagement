@@ -19,6 +19,7 @@ export class Account {
   private baseUrl = environment.apiUrl;
 
   currentUser = signal<User | null>(null);
+  isLoggedIn = signal<boolean>(false);
 
   login(model: { email: string; password: string }) {
     return this.http.post<LoginResponse>(`${this.baseUrl}/auth/login`, model).pipe(
@@ -30,9 +31,10 @@ export class Account {
           token: res.token,
           roles: res.roles ?? [],
         };
-        
+
         this.authStoreService.set(state);
         this.currentUser.set({ email: state.email, token: state.token });
+        this.isLoggedIn.set(true);
       })
     );
   }
@@ -54,6 +56,7 @@ export class Account {
   logout() {
     this.authStoreService.clear();
     this.currentUser.set(null);
+    this.isLoggedIn.set(false);
     this.router.navigate(['/login']);
   }
 }

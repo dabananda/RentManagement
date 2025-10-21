@@ -18,25 +18,48 @@ import { AgreementCreate } from './agreement/agreement-create/agreement-create';
 import { AgreementUpdate } from './agreement/agreement-update/agreement-update';
 import { AgreementEnd } from './agreement/agreement-end/agreement-end';
 import { RentList } from './rent/rent-list/rent-list';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   { path: '', component: Home, title: 'Home Page' },
   { path: 'login', component: Login, title: 'Login Page' },
   { path: 'register', component: Register, title: 'Registration Page' },
   { path: 'confirm-email', component: ConfirmEmail, title: 'Confirm Email' },
-  { path: 'shops', component: ShopList, title: 'Shop List' },
-  { path: 'shop/create', component: ShopCreate, title: 'Create Shop' },
-  { path: 'shop/:id', component: Shop, title: 'Shop Details' },
-  { path: 'shop/:id/update', component: ShopUpdateComponent, title: 'Update Shop' },
-  { path: 'tenants', component: TenantList, title: 'Tenant List' },
-  { path: 'tenant/create', component: TenantCreate, title: 'Tenant Create' },
-  { path: 'tenant/:id', component: TenantDetails, title: 'Tenant Details' },
-  { path: 'tenant/:id/update', component: TenantUpdate, title: 'Tenant Details' },
-  { path: 'agreements', component: AgreementList, title: 'Agreement List' },
-  { path: 'agreement/create', component: AgreementCreate, title: 'Agreement Create' },
-  { path: 'agreement/:id', component: AgreementDetails, title: 'Agreement Details' },
-  { path: 'agreement/:id/update', component: AgreementUpdate, title: 'Agreement Details' },
-  { path: 'agreement/:id/end', component: AgreementEnd, title: 'Agreement Details' },
-  { path: 'rents', component: RentList, title: 'Rent List' },
+
+  {
+    path: 'shops',
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: ShopList, title: 'Shop List' },
+      { path: 'create', component: ShopCreate, title: 'Create Shop' },
+      { path: ':id', component: Shop, title: 'Shop Details' },
+      { path: ':id/update', component: ShopUpdateComponent, title: 'Update Shop' },
+    ],
+  },
+
+  {
+    path: 'tenants',
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: TenantList, title: 'Tenant List' },
+      { path: 'create', component: TenantCreate, title: 'Tenant Create' },
+      { path: ':id', component: TenantDetails, title: 'Tenant Details' },
+      { path: ':id/update', component: TenantUpdate, title: 'Tenant Update' },
+    ],
+  },
+
+  {
+    path: 'agreements',
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: AgreementList, title: 'Agreement List' },
+      { path: 'create', component: AgreementCreate, title: 'Agreement Create' },
+      { path: ':id', component: AgreementDetails, title: 'Agreement Details' },
+      { path: ':id/update', component: AgreementUpdate, title: 'Agreement Update' },
+      { path: ':id/end', component: AgreementEnd, title: 'Agreement End' },
+    ],
+  },
+
+  { path: 'rents', component: RentList, canActivate: [authGuard], title: 'Rent List' },
   { path: '**', component: NotFound, title: 'Not Found' },
 ];
