@@ -22,9 +22,11 @@ import { authGuard } from './guards/auth-guard';
 import { guestGuard } from './guards/guest-guard';
 
 export const routes: Routes = [
-  { path: '', component: Home, title: 'Home Page' },
   { path: 'login', component: Login, canActivate: [guestGuard], title: 'Login Page' },
   { path: 'register', component: Register, canActivate: [guestGuard], title: 'Registration Page' },
+
+  { path: '', component: Home, canActivate: [authGuard], title: 'Home Page' },
+
   {
     path: 'confirm-email',
     component: ConfirmEmail,

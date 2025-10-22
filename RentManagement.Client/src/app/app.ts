@@ -1,12 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Navbar } from './navbar/navbar';
 import { Account } from './_services/account';
-import { RouterOutlet } from '@angular/router';
-import { TokenService } from './_services/token.service';
+import { DashboardLayout } from "./layouts/dashboard-layout/dashboard-layout";
 
 @Component({
   selector: 'app-root',
-  imports: [Navbar, RouterOutlet],
+  imports: [DashboardLayout],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

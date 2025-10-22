@@ -1,0 +1,20 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.main {
+  display: flex;
+  flex: 1;
+}
+.sidebar {
+  width: 250px;
+  padding: 1rem;
+  position: fixed;
+  height: calc(100vh - 56px);
+}
+.content {
+  margin-left: 250px;
+  padding: 1rem;
+  width: calc(100% - 250px);
+}
