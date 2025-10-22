@@ -71,6 +71,8 @@ builder.Services.AddScoped<IRentRecordRepository, RentRecordRepository>();
 builder.Services.AddScoped<IRentRecordService, RentRecordService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IDashboardRepo, DashboardRepo>();
 
 builder.Services.AddCors();
 

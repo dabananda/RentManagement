@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RentManagement.Api.Data;
+using RentManagement.Api.Interfaces;
 
 namespace RentManagement.Api.Controllers
 {
@@ -10,50 +9,25 @@ namespace RentManagement.Api.Controllers
     [Authorize]
     public class DashboardController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IDashboardService _dashboardService;
 
-        public DashboardController(AppDbContext context)
+        public DashboardController(IDashboardService dashboardService)
         {
-            _context = context;
+            _dashboardService = dashboardService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDashboardData()
+        public async Task<IActionResult> GetCardData()
         {
-            var totalShops = await _context.Shops.CountAsync();
-            var totalTenants = await _context.Tenants.CountAsync();
-            var totalActiveAgreements = await _context.RentalAgreements.CountAsync(ra => ra.IsActive);
-            var totalRentCollected = await _context.RentRecords.SumAsync(s => s.Amount);
-
-            var dashboardData = new
-            {
-                TotalShops = totalShops,
-                TotalTenants = totalTenants,
-                TotalActiveAgreements = totalActiveAgreements,
-                TotalRentCollected = totalRentCollected
-            };
+            var dashboardData = await _dashboardService.GetCardDataAsync();
 
             return Ok(dashboardData);
         }
 
         [HttpGet("table")]
-        public async Task<IActionResult> GetDashboardTableData()
+        public async Task<IActionResult> GetAgreementTableData()
         {
-            var agreements = await _context.RentalAgreements
-                .Include(ra => ra.Shop)
-                .Include(ra => ra.Tenant)
-                .Select(ra => new
-                {
-                    ra.Id,
-                    ra.Shop.ShopNumber,
-                    ra.Tenant.Name,
-                    ra.StartDate,
-                    ra.EndDate,
-                    ra.RentAmount,
-                    ra.SecurityFee,
-                    ra.IsActive
-                })
-                .ToListAsync();
+            var agreements = await _dashboardService.GetAgreementTableDataAsync();
 
             return Ok(agreements);
         }
