@@ -29,6 +29,8 @@ export const routes: Routes = [
     component: DashboardLayout,
     canActivate: [authGuard],
     children: [
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+
       { path: 'dashboard', component: Dashboard, title: 'Dashboard' },
 
       {
