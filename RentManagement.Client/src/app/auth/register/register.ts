@@ -53,9 +53,11 @@ export class Register {
     this.account.register({ email: email!, password: password! }).subscribe({
       next: (res) => {
         this.serverMessage = res?.message ?? 'Registered. Please confirm your email.';
+        this.loading = false;
       },
       error: (err) => {
         this.serverError = err?.error?.Message ?? 'Registration failed.';
+        this.loading = false;
       },
       complete: () => (this.loading = false),
     });
