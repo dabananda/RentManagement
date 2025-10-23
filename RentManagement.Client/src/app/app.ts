@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Account } from './_services/account';
-import { DashboardLayout } from "./layouts/dashboard-layout/dashboard-layout";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [DashboardLayout],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

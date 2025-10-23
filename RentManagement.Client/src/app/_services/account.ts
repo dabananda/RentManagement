@@ -54,6 +54,6 @@ export class Account {
   logout() {
     this.authStoreService.clear();
     this.currentUser.set(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 }
