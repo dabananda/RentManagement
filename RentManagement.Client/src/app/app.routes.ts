@@ -3,7 +3,6 @@ import { Login } from './auth/login/login';
 import { Register } from './auth/register/register';
 import { ConfirmEmail } from './auth/confirm-email/confirm-email';
 import { NotFound } from './not-found/not-found';
-import { Home } from './home/home';
 import { ShopList } from './shops/shop-list/shop-list';
 import { Shop } from './shops/shop/shop';
 import { ShopUpdateComponent } from './shops/shop-update/shop-update';
@@ -22,6 +21,7 @@ import { authGuard } from './guards/auth-guard';
 import { guestGuard } from './guards/guest-guard';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
 import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
+import { Dashboard } from './dashboard/dashboard';
 
 export const routes: Routes = [
   {
@@ -29,7 +29,7 @@ export const routes: Routes = [
     component: DashboardLayout,
     canActivate: [authGuard],
     children: [
-      { path: '', component: Home, title: 'Home Page' },
+      { path: 'dashboard', component: Dashboard, title: 'Dashboard' },
 
       {
         path: 'shops',

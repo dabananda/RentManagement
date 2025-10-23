@@ -1,0 +1,66 @@
+<div>
+  <!-- Cards -->
+  <div>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <div class="border rounded p-3 bg-light">
+          <h6 class="text-muted mb-2">Total Shops</h6>
+          <h3 class="mb-0">{{ cardData()?.totalShops ?? 0 }}</h3>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="border rounded p-3 bg-light">
+          <h6 class="text-muted mb-2">Total Tenants</h6>
+          <h3 class="mb-0">{{ cardData()?.totalTenants ?? 0 }}</h3>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="border rounded p-3 bg-light">
+          <h6 class="text-muted mb-2">Active Agreements</h6>
+          <h3 class="mb-0">{{ cardData()?.totalActiveAgreements ?? 0 }}</h3>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="border rounded p-3 bg-light">
+          <h6 class="text-muted mb-2">Rent Collected</h6>
+          <h3 class="mb-0">{{ cardData()?.totalRentCollected ?? 0 }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agreement Table -->
+  <div class="mt-4">
+    <h5 class="mb-3">Active Agreements</h5>
+    @if(agreementTable().length === 0) {
+    <div class="alert alert-info">No active agreements found.</div>
+    } @else {
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Agreement ID</th>
+            <th>Tenant Name</th>
+            <th>Shop Number</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Rent Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(agreement of agreementTable(); track $index) {
+          <tr>
+            <td>{{ agreement.id }}</td>
+            <td>{{ agreement.name }}</td>
+            <td>{{ agreement.shopNumber }}</td>
+            <td>{{ agreement.startDate | date : 'shortDate' }}</td>
+            <td>{{ agreement.endDate | date : 'shortDate' }}</td>
+            <td>{{ agreement.rentAmount | currency }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+  </div>
+</div>

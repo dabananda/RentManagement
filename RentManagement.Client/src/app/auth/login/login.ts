@@ -40,7 +40,7 @@ export class Login {
       next: () => {
         this.serverMessage = 'Login successful!';
         this.loading = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         console.error('Login error:', error);
