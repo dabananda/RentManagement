@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Account } from '../../_services/account';
+import { RouterLink } from "@angular/router";
 
 function matchPasswords(ctrl: AbstractControl): ValidationErrors | null {
   const pw = ctrl.get('password')?.value;
@@ -18,7 +19,7 @@ function matchPasswords(ctrl: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register.html',
 })
 export class Register {
