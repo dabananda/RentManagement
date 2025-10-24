@@ -1,4 +1,5 @@
-﻿using RentManagement.Api.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using RentManagement.Api.Interfaces;
 
 namespace RentManagement.Api.Services
 {
@@ -16,9 +17,9 @@ namespace RentManagement.Api.Services
             return await _repo.GetCardDataAsync();
         }
 
-        public async Task<IEnumerable<object>> GetAgreementTableDataAsync()
+        public async Task<IEnumerable<object>> GetAgreementTableDataAsync([FromQuery] string? search = null)
         {
-            return await _repo.GetAgreementTableDataAsync();
+            return await _repo.GetAgreementTableDataAsync(search);
         }
     }
 }

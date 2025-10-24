@@ -25,9 +25,9 @@ namespace RentManagement.Api.Controllers
         }
 
         [HttpGet("table")]
-        public async Task<IActionResult> GetAgreementTableData()
+        public async Task<IActionResult> GetAgreementTableData([FromQuery] string? search = null)
         {
-            var agreements = await _dashboardService.GetAgreementTableDataAsync();
+            var agreements = await _dashboardService.GetAgreementTableDataAsync(search);
 
             return Ok(agreements);
         }

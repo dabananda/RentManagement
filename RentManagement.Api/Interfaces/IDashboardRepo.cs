@@ -3,6 +3,6 @@
     public interface IDashboardRepo
     {
         Task<object> GetCardDataAsync();
-        Task<IEnumerable<object>> GetAgreementTableDataAsync();
+        Task<IEnumerable<object>> GetAgreementTableDataAsync(string? search = null);
     }
 }

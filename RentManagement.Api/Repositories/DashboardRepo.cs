@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RentManagement.Api.Data;
 using RentManagement.Api.Interfaces;
 
@@ -31,11 +32,26 @@ namespace RentManagement.Api.Repositories
             return dashboardData;
         }
 
-        public async Task<IEnumerable<object>> GetAgreementTableDataAsync()
+        public async Task<IEnumerable<object>> GetAgreementTableDataAsync([FromQuery] string? search = null)
         {
-            var agreements = await _context.RentalAgreements
-                .Include(ra => ra.Shop)
-                .Include(ra => ra.Tenant)
+            var query = _context.RentalAgreements
+                .Include(s => s.Shop)
+                .Include(t => t.Tenant)
+                .AsQueryable();
+
+            if (search != null)
+            {
+                search = search.ToLower();
+                query = query.Where(q =>
+                    q.Shop.ShopNumber.Contains(search) ||
+                    q.Tenant.Name.ToLower().Contains(search) ||
+                    q.RentAmount.ToString().Contains(search) ||
+                    q.SecurityFee.ToString().Contains(search) ||
+                    q.Id.ToString().Contains(search)
+                 );
+            }
+
+            var agreements = await query
                 .Select(ra => new
                 {
                     ra.Id,
