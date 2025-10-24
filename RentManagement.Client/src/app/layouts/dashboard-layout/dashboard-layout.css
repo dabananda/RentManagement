@@ -14,7 +14,7 @@
   height: calc(100vh - 56px);
 }
 .content {
-  margin-left: 250px;
+  /* margin-left: 280px; */
   padding: 1rem;
-  width: calc(100% - 250px);
+  width: calc(100% - 280px);
 }

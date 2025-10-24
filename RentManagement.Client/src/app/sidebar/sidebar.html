@@ -1,22 +1,46 @@
-<div>
-  <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary h-100" style="width: 280px">
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li>
+      <a
+        class="nav-link link-body-emphasis"
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="bi bi-speedometer2 me-2"></i>
+        Dashboard
+      </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/rents">Rents</a>
+    <li>
+      <a class="nav-link link-body-emphasis" routerLink="/rents" routerLinkActive="active">
+        <i class="bi bi-file-earmark-text me-2"></i>
+        Rents
+      </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="shops">Shops</a>
+    <li>
+      <a class="nav-link link-body-emphasis" routerLink="/shops" routerLinkActive="active">
+        <i class="bi bi-shop me-2"></i>
+        Shops
+      </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="tenants">Tenants</a>
+    <li>
+      <a class="nav-link link-body-emphasis" routerLink="/tenants" routerLinkActive="active">
+        <i class="bi bi-person me-2"></i>
+        Tenants
+      </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="agreements">Agreements</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" (click)="accountService.logout()">Logout</a>
+    <li>
+      <a class="nav-link link-body-emphasis" routerLink="/agreements" routerLinkActive="active">
+        <i class="bi bi-file-earmark-text me-2"></i>
+        Agreements
+      </a>
     </li>
   </ul>
+  <hr />
+  <div>
+    <button class="btn btn-primary w-100" (click)="accountService.logout()">
+      <i class="bi bi-box-arrow-right me-2"></i>
+      Logout
+    </button>
+  </div>
 </div>
