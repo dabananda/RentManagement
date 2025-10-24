@@ -20,7 +20,7 @@
     </div>
   }
 
-  <table class="table table-striped table-hover">
+  <table class="table table-striped table-hover border">
     <thead>
       <tr>
         <th scope="col">Id</th>
@@ -30,7 +30,7 @@
         <th scope="col">Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="table-group-divider">
       @for (tenant of tenantService.tenants(); track tenant.id) {
       <tr>
         <th scope="row">{{ tenant.id }}</th>

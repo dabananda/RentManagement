@@ -21,17 +21,19 @@
         >
           <img
             src="https://github.com/dabananda.png"
-            alt="{{accountService.currentUser()?.email}}"
+            alt="{{ accountService.currentUser()?.email }}"
             width="32"
             height="32"
             class="rounded-circle"
           />
         </a>
         <ul class="dropdown-menu text-small">
+          <li>
+            <a class="dropdown-item" disabled>{{ accountService.currentUser()?.email }}</a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
           <li><a class="dropdown-item" href="#">Profile</a></li>
           <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
         </ul>
       </div>
     </div>
