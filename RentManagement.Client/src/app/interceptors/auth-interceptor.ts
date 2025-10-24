@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthStoreService } from '../_services/auth-store.service';
 
-const BYPASS = ['/auth/login', 'auth/register', '/auth/ConfirmEmail'];
+const BYPASS = ['/auth/login', 'auth/register', '/auth/confirm-email'];
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authStoreService = inject(AuthStoreService);

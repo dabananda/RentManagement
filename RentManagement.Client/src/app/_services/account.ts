@@ -43,7 +43,7 @@ export class Account {
 
   confirmEmail(userId: string, token: string) {
     const params = new HttpParams().set('userId', userId).set('token', token);
-    return this.http.post<ApiMessage>(`${this.baseUrl}/auth/ConfirmEmail`, null, { params });
+    return this.http.post<ApiMessage>(`${this.baseUrl}/auth/confirm-email`, null, { params });
   }
 
   hydrateFromStore() {
