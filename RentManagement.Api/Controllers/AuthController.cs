@@ -36,7 +36,7 @@ namespace RentManagement.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost("ConfirmEmail")]
+        [HttpPost("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string token)
         {
             var succeeded = await _authService.ConfirmEmailAsync(userId, token);

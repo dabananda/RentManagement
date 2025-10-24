@@ -59,7 +59,7 @@ namespace RentManagement.Api.Services
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            string confirmationLink = $"http://localhost:4200/confirm-email?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+            string confirmationLink = $"http://localhost:4200/auth/confirm-email?userId={user.Id}&token={Uri.EscapeDataString(token)}";
 
             string body = $@"
                 <p>Please confirm your account by clicking the link below:</p>
