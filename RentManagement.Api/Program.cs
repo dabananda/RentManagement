@@ -89,7 +89,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200/"));
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors(x => x
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+        .WithOrigins("http://localhost:4200", "https://localhost:4200", "https://givema7496-001-site1.ktempurl.com"));
+}
+else
+{
+    app.UseCors(x => x
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+        .WithOrigins("https://givema7496-001-site1.ktempurl.com"));
+}
 
 app.UseAuthentication();
 app.UseAuthorization();
