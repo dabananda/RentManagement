@@ -89,20 +89,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseCors(x => x
-//        .AllowAnyHeader()
-//        .AllowAnyMethod()
-//        .AllowCredentials()
-//        .WithOrigins("http://localhost:4200", "https://localhost:4200"));
-//}
-
-app.UseCors(x => x
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors(x => x
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()
         .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+}
+else
+{
+    app.UseCors(x => x
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+        .WithOrigins("https://rent-dm.netlify.app", "http://rent-dm.netlify.app"));
+}
 
 app.UseAuthentication();
 app.UseAuthorization();
