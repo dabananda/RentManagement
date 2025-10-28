@@ -6,6 +6,12 @@ This document describes the REST API exposed by **RentManagement.Api**. It’s w
 
 ---
 
+## Live Links:
+- **Api Url:** https://yanosa7323-001-site1.qtempurl.com/api
+- **Live:** https://rent-dm.netlify.app/
+
+---
+
 ## 1) Base URL & Versioning
 - **Base URL (dev):** `https://localhost:5001` (HTTPS is enforced by default)
 - **Prefix:** All endpoints are under `/api/*` (e.g., `/api/Shop`).
